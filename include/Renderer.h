@@ -12,7 +12,7 @@ class Renderer {
         Color *_clear_color;
 
     public:
-        Renderer(GLProgram &program, VertexBuffer &vertex_buffer, Color clear_color = {0.0f, 0.0f, 0.0f, 1.0f});
+        Renderer(GLProgram &program, VertexBuffer &vertex_buffer, Color &clear_color);
 
         void draw();
 };

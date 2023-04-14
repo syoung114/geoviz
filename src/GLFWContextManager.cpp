@@ -5,18 +5,16 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "GLFWInitException.h"
+#include "GLInitException.h"
 #include "GLFWwindowArgs.h"
 #include "Color.h"
 
 #include "Renderer.h"
 
-GLFWContextManager::GLFWContextManager(GLFWwindowArgs &window, Renderer &renderer) {
+GLFWContextManager::GLFWContextManager(GLFWwindowArgs &window) {
     if (!glfwInit()) {
-      throw GLFWInitException();
+      throw GLInitException();
     }
-
-    this->_renderer = &renderer;
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -24,14 +22,24 @@ GLFWContextManager::GLFWContextManager(GLFWwindowArgs &window, Renderer &rendere
     
     this->_window = glfwCreateWindow(window.width, window.height, window.title, NULL, NULL);
     if (!this->_window) {
-        throw GLFWInitException();
+        throw GLInitException();
     }
-    glViewport(0, 0, window.width, window.height);
     glfwMakeContextCurrent(this->_window); 
+
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+        //std::cout << "Glad has failed to init\n";
+        throw GLInitException();
+    }
+
+    glViewport(0, 0, window.width, window.height);
 }
 GLFWContextManager::~GLFWContextManager() {
     glfwDestroyWindow(this->_window);
     glfwTerminate();
+}
+
+void GLFWContextManager::set_renderer(Renderer &renderer) {
+    this->_renderer = &renderer;
 }
 
 int GLFWContextManager::run() {

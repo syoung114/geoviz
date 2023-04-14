@@ -11,9 +11,11 @@ class GLFWContextManager {
         GLFWwindow *_window;
         Renderer *_renderer;
     public:
-        GLFWContextManager(GLFWwindowArgs &window, Renderer &renderer);
+        GLFWContextManager(GLFWwindowArgs &window);
 
         ~GLFWContextManager();
+        
+        void set_renderer(Renderer &renderer);
 
         int run();
 };
