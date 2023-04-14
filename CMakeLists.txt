@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(geoviz)
+#set_property(TARGET ${PROJECT_NAME}_cxx17 CXX_STANDARD 17)
 
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
@@ -17,6 +18,7 @@ endif()
 
 set(SRC_FILES glad.c src/main.cpp src/GLFWContextManager.cpp src/GLProgram.cpp src/VertexBuffer.cpp src/Renderer.cpp src/ShaderFactory.cpp)
 add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES})
+#add_library(glad glad.c glad.h)
 
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/glfw)
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} glfw)

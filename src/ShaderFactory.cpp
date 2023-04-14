@@ -1,32 +1,35 @@
+#include "ShaderFactory.h"
+
 #include <glad/glad.h>
-#include <string>
-#include <iostream>
 #include <fstream>
+#include <string>
 
-class ShaderFactory {
-    public:
-        static std::string read_shader_file(const std::string filename) {
-           std::ifstream file(filename);
-            if (!file.good()) {
-                std::cout<<"File \""<<filename<<"\" failed to load.";
-                exit(1);
-            }
-            return std::string(
-                std::istreambuf_iterator<char>(file),
-                std::istreambuf_iterator<char>()
-            );
+std::string ShaderFactory::read_shader_file(const std::string &filename) {
+    std::string source;
+    std::ifstream file(filename.c_str());
+    if (!file.good()) {
+        throw std::runtime_error("Failed to read file " + filename + "; file.good() returned false");
+    }
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+             source += line + '\n';
         }
+    }
+    file.close();
+    return source;
+}
 
-        static GLuint create(std::string shader_source, GLenum shader_type) {
-            GLuint shader = glCreateShader(shader_type);
-            glShaderSource(shader, 1, shader_source, NULL);
-            glCompileShader(shader);
-            return shader;
-        }
+GLuint ShaderFactory::create(const std::string &shader_source, GLenum shader_type) {
+    GLuint shader = glCreateShader(shader_type);
+    const char* shader_source_ptr = shader_source.c_str();
+    glShaderSource(shader, 1, &shader_source_ptr, NULL);
+    glCompileShader(shader);
+    return shader;
+}
 
-        static GLuint read_and_create(const std::string filename, GLenum shader_type) {
-            std::string shader_source = ShaderFactory.read_shader_file(filename);
-            GLuint shader = ShaderFactory.create(shader_source, GLenum);
-            return shader;
-        }
-};
+GLuint ShaderFactory::read_and_create(const std::string &filename, GLenum shader_type) {
+    const std::string shader_source = ShaderFactory::read_shader_file(filename);
+    GLuint shader = ShaderFactory::create(shader_source, shader_type);
+    return shader;
+}

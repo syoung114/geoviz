@@ -1,60 +1,44 @@
-class VertexBuffer {
-    private:
-		GLfloat *_verts;
-        int _num_verts;
+#include "VertexBuffer.h"
 
-		GLuint _varray;
-		GLuint _vbuffer;
-	public:
-        VertexBuffer(GLfloat *verts) {
-            this->set_vertices(verts);
-        }
-        ~VertexBuffer() {
-            //varray and vbuffer could be null so check first before deleting
-            if (this->_varray) {
-                glDeleteVertexArrays(1, &this->_varray);
-            }
-            if (this->_vbuffer) {
-                glDeleteBuffers(1, &this->_vbuffer);
-            } 
-        }
+#include <glad/glad.h>
 
-        void set_vertices(GLfloat *verts) { 
-			this->_verts = verts;
-            this->_num_verts = sizeof(this->_verts)/sizeof(GLfloat);
-		}
+VertexBuffer::VertexBuffer(GLfloat *verts) {
+    this->set_vertices(verts);
+}
+VertexBuffer::~VertexBuffer() {
+    //varray and vbuffer could be null so check first before deleting
+    if (this->_varray) {
+        glDeleteVertexArrays(1, &this->_varray);
+    }
+    if (this->_vbuffer) {
+        glDeleteBuffers(1, &this->_vbuffer);
+    } 
+}
 
-        /*
-        GLuint get_gl_vertex_array() {
-            return this->_varray;
-        }
+void VertexBuffer::set_vertices(GLfloat *verts) { 
+	this->_verts = verts;
+    this->_num_verts = sizeof(this->_verts)/sizeof(GLfloat);
+}
+void VertexBuffer::buffer_vertices() {
+    //TODO: probably not dynamic enough
+    glGenVertexArrays(1, &this->_varray);
+    glGenBuffers(1, &this->_vbuffer);
 
-        GLUint get_gl_vertex_buffer() {
-            return this->_vbuffer;
-        }
-        */
+    glBindVertexArray(this->_varray);
 
-		void buffer_vertices() {
-            //TODO: probably not dynamic enough
-            glGenVertexArrays(1, &this->_varray);
-            glGenBuffers(1, &this->_vbuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, this->_varray);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(this->_verts), this->_verts, GL_STATIC_DRAW);
 
-            glBindVertexArray(this->_varray)
+    glVertexAttribPointer(0, this->_num_verts, GL_FLOAT, GL_FALSE, this->_num_verts*sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
 
-            glBindBuffer(GL_ARRAY_BUFFER, this->_varray);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(this->_verts), this->_verts, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
 
-            glVertexAttribPointer(0, this->_num_verts, GL_FLOAT, GL_FALSE, this->_num_verts*sizeof(float), (void*)0);
-            glEnableVertexAttribArray(0);
-
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
-            glBindVertexArray(0);
-        }
-
-        /**
-        * Do not use directly
-        */
-        void draw() {
-            glDrawArrays(GL_TRIANGLES, 0, this->_num_verts);
-        }
-};
+/**
+* Do not use directly
+*/
+void VertexBuffer::draw() {
+    glDrawArrays(GL_TRIANGLES, 0, this->_num_verts);
+}
