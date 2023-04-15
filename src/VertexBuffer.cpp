@@ -1,12 +1,14 @@
 #include "VertexBuffer.h"
 
 #include <cstddef>
-#include <cmath>
-#include <glad/glad.h>
-//#include <iostream>
 
-VertexBuffer::VertexBuffer(float *verts, std::size_t size) {
-    this->set_vertices(verts, size);
+#include <glad/glad.h>
+
+//TODO once the program sbecomes more complex I will need a 'super' class that manages vertex buffer IDs and draw orchestration
+
+VertexBuffer::VertexBuffer(float *verts, std::size_t size, int num_verts) {
+    this->_id = 0;
+    this->set_vertices(verts, size, num_verts);
     glGenVertexArrays(1, &(this->_varray));
     glGenBuffers(1, &(this->_vbuffer));
 }
@@ -20,32 +22,30 @@ VertexBuffer::~VertexBuffer() {
     } 
 }
 
-void VertexBuffer::set_vertices(float *verts, std::size_t size) { 
+void VertexBuffer::set_vertices(float *verts, std::size_t size, int num_verts) { 
 	this->_verts = verts;
     this->_size = size;
-    //this->_num_verts = size / sizeof(GLfloat);
-    //std::cout << _num_verts;
-    _num_verts = 3;
+    this->_num_verts = num_verts;
 }
 
 void VertexBuffer::bind() {
     glBindVertexArray(this->_varray);
     glBindBuffer(GL_ARRAY_BUFFER, this->_vbuffer);
+    glEnableVertexAttribArray(this->_id);
 }
 
 void VertexBuffer::unbind() {
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    glDisableVertexAttribArray(this->_id);
+    glBindBuffer(GL_ARRAY_BUFFER, this->_id);
+    glBindVertexArray(this->_id);
 }
 
-void VertexBuffer::buffer_vertices() {
+void VertexBuffer::buffer() {
     this->bind();
 
-    //glBufferData(GL_ARRAY_BUFFER, pow(this->_size, 2) / sizeof(this->_verts[0]), &this->_verts[0], GL_STATIC_DRAW);
     glBufferData(GL_ARRAY_BUFFER, this->_size, this->_verts, GL_STATIC_DRAW);
     
-    glVertexAttribPointer(0, this->_num_verts, GL_FLOAT, GL_FALSE, this->_num_verts * sizeof(float), (void*)0);
+    glVertexAttribPointer(this->_id, this->_num_verts, GL_FLOAT, GL_FALSE, this->_num_verts * sizeof(float), (void*)0);
 
     this->unbind();
 }
@@ -54,8 +54,7 @@ void VertexBuffer::buffer_vertices() {
  * Do not use in isolation. Intended as one part of a draw call.
  */
 void VertexBuffer::draw() {
-    //this->bind();
-    glBindVertexArray(this->_varray);
+    this->bind();
     glDrawArrays(GL_TRIANGLES, 0, this->_num_verts);
-    //this->unbind();
+    this->unbind();
 }

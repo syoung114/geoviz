@@ -7,7 +7,7 @@
 
 class Renderer {
     private:
-        VertexBuffer *_buffer;
+        VertexBuffer *_vbuffer;
         GLProgram *_program;
         Color *_clear_color;
 

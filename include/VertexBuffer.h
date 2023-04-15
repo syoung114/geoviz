@@ -7,7 +7,9 @@
 
 class VertexBuffer {
     private:
-		float *_verts;
+		int _id;
+        
+        float *_verts;
         size_t _size;
         int _num_verts;
 
@@ -19,13 +21,13 @@ class VertexBuffer {
         void unbind();
 
 	public:
-        VertexBuffer(float *verts, std::size_t size);
+        VertexBuffer(float *verts, std::size_t size, int num_verts);
 
         ~VertexBuffer();
 
-        void set_vertices(float *verts, std::size_t size);
+        void set_vertices(float *verts, std::size_t size, int num_verts);
 
-		void buffer_vertices();
+		void buffer();
 
         void draw(); 
 };

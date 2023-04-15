@@ -30,20 +30,14 @@ int main(int argc, char* argv[]) {
     //Create the opengl program using the shaders.
     GLProgram *program = new GLProgram(shaders);
 
-    //Buffer some vertices (placeholder vertices)
-    /*
+    //Buffer some vertices (placeholder vertices)    
     GLfloat vertices[] = {
         -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
         0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
         0.0f, 0.5f * float(sqrt(3)) / 2, 0.0f
     };
-    */
-    float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f, 0.5f, 0.0f
-    };
-    VertexBuffer *vbuffer = new VertexBuffer(vertices, sizeof(vertices));
+    int num_verts = 3;
+    VertexBuffer *vbuffer = new VertexBuffer(vertices, sizeof(vertices), num_verts);
     
     //Give the program and vertex buffer to the renderer
     Color clear_color = {0.0f, 0.0f, 0.0f, 1.0f};
