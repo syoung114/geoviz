@@ -1,4 +1,3 @@
 build/
-
-#We made CMake copy the required glfw lib files from the glfw submodule so we can respect its version control and keep it isolated from our code. We do not put this code in origin because it would defeat that motivation.
-#lib/glfw
+lib/glad/src/
+lib/glad/include/
