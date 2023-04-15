@@ -17,6 +17,7 @@ std::string ShaderFactory::read_shader_file(const std::string &filename) {
         }
     }
     file.close();
+    source += '\0';
     return source;
 }
 

@@ -6,7 +6,7 @@ if [ "$1" = "--reset" ]; then
 
 #debug with gdb. need to recompile everything here
 elif [ "$1" = "--debug" ]; then
-    rm -rf build; mkdir build; cd build; cmake -DCMAKE_BUILD_TYPE=Debug ..; make all; ./geoviz; cd ..
+    rm -rf build; mkdir build; cd build; cmake -DCMAKE_BUILD_TYPE=Debug ..; make all; gdb geoviz; cd ..
 
 #run normally without compiling dependences (assuming they are already compiled)
 else

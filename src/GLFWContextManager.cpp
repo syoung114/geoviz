@@ -43,9 +43,7 @@ void GLFWContextManager::set_renderer(Renderer &renderer) {
 }
 
 int GLFWContextManager::run() {
-    while (!glfwWindowShouldClose(_window)) { 
-        //glUseProgram(this->_program.get_program());
-        //glBindVertexArray(this->_program.get_gl_vertex_array());
+    while (!glfwWindowShouldClose(this->_window)) { 
         this->_renderer->draw();
         glfwSwapBuffers(this->_window);
         glfwPollEvents();
