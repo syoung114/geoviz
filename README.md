@@ -1,12 +1,14 @@
 # geoviz
 
-Personal scripts for making specific visualisations. You probably won't ever need them.
+Personal scripts for making specific 3D visualisations that I can't find anywhere or prefer to write myself. You probably won't ever need them. Also includes a well-encapsulated OOP rendering backend I made which I prefer over the many OpenGL tutorials that use functional programming.
 
-## Voxel Render
+## Voxel Cylinder Ramp
 
-### Cylinder Ramp
+This exists to anwer a question that arised while I was playing a game:
 
-Given a voxelised cylinder, how should a spiral inside of it be segmented across the height axis?
+> Given a voxelised cylinder, how should a spiral inside of it be evenly segmented across the height axis?
+
+Well, here is my solution.
 
 **Example**
 
