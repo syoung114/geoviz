@@ -12,8 +12,9 @@
 #include "VertexArrayBuffer.h"
 #include "Vec4f.h"
 
+#include "VertexBuilder.h"
+
 int main(int argc, char* argv[]) {
-    
     //Create a context (window) that will be used to render the thing. 
     GLFWwindowArgs window_args = {800, 800, "test"};
     GLFWContextManager *context = new GLFWContextManager(window_args);
@@ -31,14 +32,28 @@ int main(int argc, char* argv[]) {
     //Create the opengl program using the shaders.
     GLProgram *program = new GLProgram(shaders);
 
-    //Buffer some vertices (placeholder vertices)    
-    GLfloat vertices[] = {
+    //Buffer some vertices, giving positions and rgb to a vertex buffer.
+    float positions[] = {
         -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0,
         0.5f, -0.5f * float(sqrt(3)) / 3, 0.0,
         0.0f, 0.5f * float(sqrt(3)) / 2, 0.0f
     };
+    float rgb[] = {
+        1.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 1.0f
+    };
+    VertexBuilder vb;
+    float *vertices = vb
+        .start(3,9,positions)
+        ->concat(3,9,rgb)
+        ->finish();
+    for (int i = 0; i < 18; i++) {
+        std::cout<<vertices[i]<<" ";
+    }
     int num_verts = 3;
-    VertexArrayBuffer *vbuffer = new VertexArrayBuffer(vertices, sizeof(vertices), num_verts);
+    int size = 24*sizeof(float);
+    VertexArrayBuffer *vbuffer = new VertexArrayBuffer(vertices, size, num_verts, 6, 3);
     
     //Give the program and vertex buffer to the renderer
     Vec4f clear_color = {0.0, 0.0, 0.0, 1.0};
@@ -53,7 +68,7 @@ int main(int argc, char* argv[]) {
     delete program;
     delete vbuffer;
     delete context;
-
+    
     return 0;
 
 }

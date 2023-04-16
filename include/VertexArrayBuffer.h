@@ -12,20 +12,25 @@ class VertexArrayBuffer {
         float *_verts;
         size_t _size;
         int _num_verts;
+        int _shape;
+        int _shape_unit;
+        int _unit_count;
+
+        const int FLOAT_SIZE = 32;
 
 		GLuint _varray;
 		GLuint _vbuffer;
 
-        void bind();
+        void _bind();
 
-        void unbind();
+        void _unbind();
 
 	public:
-        VertexArrayBuffer(float *verts, std::size_t size, int num_verts);
+        VertexArrayBuffer(float *verts, std::size_t size, int num_verts, int shape, int shape_unit);
 
         ~VertexArrayBuffer();
 
-        void set_vertices(float *verts, std::size_t size, int num_verts);
+        void set_vertices(float *verts, std::size_t size, int num_verts, int shape, int shape_unit);
 
 		void buffer();
 

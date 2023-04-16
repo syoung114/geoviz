@@ -8,9 +8,11 @@ class VertexBuilder {
         std::vector<float> _internal;
         int _stride;
     public:
-        VertexBuilder(int dimensionality, int positions_len, float *positions);
+        VertexBuilder* start(int dimensionality, int positions_len, float *positions);
 
         VertexBuilder* concat(int stride, int another_len, float *another);
+
+        int size();
 
         float* finish();
 };
