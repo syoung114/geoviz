@@ -2,17 +2,17 @@
 #define RENDERER_H
 
 #include "GLProgram.h"
-#include "VertexBuffer.h"
-#include "Color.h"
+#include "VertexArrayBuffer.h"
+#include "Vec4f.h"
 
 class Renderer {
     private:
-        VertexBuffer *_vbuffer;
+        VertexArrayBuffer *_vbuffer;
         GLProgram *_program;
-        Color *_clear_color;
+        Vec4f *_clear_color;
 
     public:
-        Renderer(GLProgram &program, VertexBuffer &vertex_buffer, Color &clear_color);
+        Renderer(GLProgram &program, VertexArrayBuffer &vertex_buffer, Vec4f &clear_color);
 
         void draw();
 };

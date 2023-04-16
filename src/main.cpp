@@ -9,7 +9,8 @@
 #include "ShaderFactory.h"
 #include "GLProgram.h"
 #include "Renderer.h"
-#include "VertexBuffer.h"
+#include "VertexArrayBuffer.h"
+#include "Vec4f.h"
 
 int main(int argc, char* argv[]) {
     
@@ -32,15 +33,15 @@ int main(int argc, char* argv[]) {
 
     //Buffer some vertices (placeholder vertices)    
     GLfloat vertices[] = {
-        -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
-        0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
+        -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0,
+        0.5f, -0.5f * float(sqrt(3)) / 3, 0.0,
         0.0f, 0.5f * float(sqrt(3)) / 2, 0.0f
     };
     int num_verts = 3;
-    VertexBuffer *vbuffer = new VertexBuffer(vertices, sizeof(vertices), num_verts);
+    VertexArrayBuffer *vbuffer = new VertexArrayBuffer(vertices, sizeof(vertices), num_verts);
     
     //Give the program and vertex buffer to the renderer
-    Color clear_color = {0.0f, 0.0f, 0.0f, 1.0f};
+    Vec4f clear_color = {0.0, 0.0, 0.0, 1.0};
     Renderer *renderer = new Renderer(*program, *vbuffer, clear_color);
    
     //Now that we have created a renderer we can attach it to the window and activate the window.

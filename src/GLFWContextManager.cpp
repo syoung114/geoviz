@@ -7,7 +7,6 @@
 
 #include "GLInitException.h"
 #include "GLFWwindowArgs.h"
-#include "Color.h"
 
 #include "Renderer.h"
 

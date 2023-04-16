@@ -1,11 +1,11 @@
-#ifndef VERTEX_BUFFER_H
-#define VERTEX_BUFFER_H
+#ifndef VERTEX_ARRAY_BUFFER_H
+#define VERTEX_ARRAY_BUFFER_H
 
 #include <cstddef>
 
 #include <glad/glad.h>
 
-class VertexBuffer {
+class VertexArrayBuffer {
     private:
 		int _id;
         
@@ -21,9 +21,9 @@ class VertexBuffer {
         void unbind();
 
 	public:
-        VertexBuffer(float *verts, std::size_t size, int num_verts);
+        VertexArrayBuffer(float *verts, std::size_t size, int num_verts);
 
-        ~VertexBuffer();
+        ~VertexArrayBuffer();
 
         void set_vertices(float *verts, std::size_t size, int num_verts);
 
