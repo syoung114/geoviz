@@ -23,14 +23,16 @@ GLFWContextManager::GLFWContextManager(GLFWwindowArgs &window) {
     if (!this->_window) {
         throw GLInitException();
     }
-    glfwMakeContextCurrent(this->_window); 
+    glfwMakeContextCurrent(this->_window);
+
+    this->_width = window.width;
+    this->_height = window.height;
 
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         //std::cout << "Glad has failed to init\n";
         throw GLInitException();
     }
 
-    glViewport(0, 0, window.width, window.height);
 }
 GLFWContextManager::~GLFWContextManager() {
     glfwDestroyWindow(this->_window);
@@ -43,9 +45,10 @@ void GLFWContextManager::set_renderer(Renderer &renderer) {
 
 int GLFWContextManager::run() {
     while (!glfwWindowShouldClose(this->_window)) {
-        //glfwGetWindowSize(&_width, &_height);
-        //this->_renderer->draw(this->_width, this->_height);
-        this->_renderer->draw(800, 800);
+        glfwGetFramebufferSize(this->_window, &(this->_width), &(this->_height));
+        glViewport(0,0,this->_width,this->_height); 
+        this->_renderer->draw(this->_width, this->_height);
+        //this->_renderer->draw(800, 800);
         glfwSwapBuffers(this->_window);
         glfwPollEvents();
     }

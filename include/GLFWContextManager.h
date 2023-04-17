@@ -13,7 +13,7 @@ class GLFWContextManager {
     
         int _width;
         int _height;    
-    
+        
     public:
         GLFWContextManager(GLFWwindowArgs &window);
 

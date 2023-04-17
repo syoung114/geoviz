@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
     VertexArrayBuffer *vbuffer = new VertexArrayBuffer(vertices, verts_size, 6, 3, indices, indices_size, num_indices);
     
     //Give the program and vertex buffer to the renderer
-    Vec4f clear_color = {0.0, 0.0, 0.0, 1.0};
+    Vec4f clear_color = {0.0, 0.0, 0.05f, 1.0};
     Renderer *renderer = new Renderer(*program, *vbuffer, clear_color);
    
     //Now that we have created a renderer we can attach it to the window and activate the window.
