@@ -33,11 +33,22 @@ int main(int argc, char* argv[]) {
     GLProgram *program = new GLProgram(shaders);
 
     //Buffer some vertices, giving positions and rgb to a vertex buffer.
-    float positions[] = {
-        -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0,
-        0.5f, -0.5f * float(sqrt(3)) / 3, 0.0,
-        0.0f, 0.5f * float(sqrt(3)) / 2, 0.0f
+
+	
+    float vertices[] = {
+         -0.5f,-0.5f * float(sqrt(3)) * 1 / 3, 0.0f,     1.0f, 0.0f, 0.0f, // Lower left corner
+       	 0.5f, -0.5f * float(sqrt(3)) * 1 / 3, 0.0f,     0.0f, 1.0f, 0.0f, // Lower right corner
+       	 0.0f,  0.5f * float(sqrt(3)) * 2 / 3, 0.0f,     0.0f, 0.0f, 1.0f, // Upper corner
+         -0.25f, 0.5f * float(sqrt(3)) * 1 / 6, 0.0f,    0.0f, 1.0f, 0.0f, // Inner left
+         0.25f, 0.5f * float(sqrt(3)) * 1 / 6, 0.0f,     1.0f, 0.0f, 0.0f, // Inner right
+         0.0f, -0.5f * float(sqrt(3)) * 1 / 3, 0.0f,     0.0f, 0.0f, 1.0f  // Inner down
     };
+    GLuint indices[] = {
+        0, 3, 5,
+        3, 2, 4,
+        5, 4, 1
+    };
+/*
     float rgb[] = {
         1.0f, 0.0f, 0.0f,
         0.0f, 1.0f, 0.0f,
@@ -48,12 +59,16 @@ int main(int argc, char* argv[]) {
         .start(3,9,positions)
         ->concat(3,9,rgb)
         ->finish();
-    for (int i = 0; i < 18; i++) {
-        std::cout<<vertices[i]<<" ";
-    }
+    
     int num_verts = 3;
     int size = 24*sizeof(float);
-    VertexArrayBuffer *vbuffer = new VertexArrayBuffer(vertices, size, num_verts, 6, 3);
+*/
+    int num_indices = 9;
+    //int verts_size = 24*sizeof(float);
+    size_t verts_size = sizeof(vertices);
+    size_t indices_size = sizeof(indices);
+    //short indices_size = sizeof(indices);
+    VertexArrayBuffer *vbuffer = new VertexArrayBuffer(vertices, verts_size, 6, 3, indices, indices_size, num_indices);
     
     //Give the program and vertex buffer to the renderer
     Vec4f clear_color = {0.0, 0.0, 0.0, 1.0};
