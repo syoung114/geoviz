@@ -10,6 +10,10 @@ class GLFWContextManager {
     private:
         GLFWwindow *_window;
         Renderer *_renderer;
+    
+        int _width;
+        int _height;    
+    
     public:
         GLFWContextManager(GLFWwindowArgs &window);
 

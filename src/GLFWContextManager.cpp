@@ -42,8 +42,10 @@ void GLFWContextManager::set_renderer(Renderer &renderer) {
 }
 
 int GLFWContextManager::run() {
-    while (!glfwWindowShouldClose(this->_window)) { 
-        this->_renderer->draw();
+    while (!glfwWindowShouldClose(this->_window)) {
+        //glfwGetWindowSize(&_width, &_height);
+        //this->_renderer->draw(this->_width, this->_height);
+        this->_renderer->draw(800, 800);
         glfwSwapBuffers(this->_window);
         glfwPollEvents();
     }

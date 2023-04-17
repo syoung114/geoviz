@@ -33,28 +33,9 @@ int main(int argc, char* argv[]) {
     GLProgram *program = new GLProgram(shaders);
 
     //Buffer some vertices, giving positions and rgb to a vertex buffer.
-
-	
-    float vertices[] = {
-         -0.5f,-0.5f * float(sqrt(3)) * 1 / 3, 0.0f,     1.0f, 0.0f, 0.0f, // Lower left corner
-       	 0.5f, -0.5f * float(sqrt(3)) * 1 / 3, 0.0f,     0.0f, 1.0f, 0.0f, // Lower right corner
-       	 0.0f,  0.5f * float(sqrt(3)) * 2 / 3, 0.0f,     0.0f, 0.0f, 1.0f, // Upper corner
-         -0.25f, 0.5f * float(sqrt(3)) * 1 / 6, 0.0f,    0.0f, 1.0f, 0.0f, // Inner left
-         0.25f, 0.5f * float(sqrt(3)) * 1 / 6, 0.0f,     1.0f, 0.0f, 0.0f, // Inner right
-         0.0f, -0.5f * float(sqrt(3)) * 1 / 3, 0.0f,     0.0f, 0.0f, 1.0f  // Inner down
-    };
-    GLuint indices[] = {
-        0, 3, 5,
-        3, 2, 4,
-        5, 4, 1
-    };
-/*
-    float rgb[] = {
-        1.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 1.0f
-    };
+    	
     VertexBuilder vb;
+    /*
     float *vertices = vb
         .start(3,9,positions)
         ->concat(3,9,rgb)
@@ -62,12 +43,35 @@ int main(int argc, char* argv[]) {
     
     int num_verts = 3;
     int size = 24*sizeof(float);
-*/
-    int num_indices = 9;
-    //int verts_size = 24*sizeof(float);
+    */
+    
+    float vertices[] = {
+        -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
+        -0.5, -0.5, 0.5, 0.0, 1.0, 0.0,
+        -0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
+        -0.5, 0.5, 0.5, 1.0, 0.0, 1.0,
+        0.5, -0.5, -0.5, 1.0, 1.0, 1.0,
+        0.5, -0.5, 0.5, 0.0, 1.0, 1.0,
+        0.5, 0.5, -0.5, 1.0, 1.0, 1.0,
+        0.5, 0.5, 0.5, 0.0, 0.0, 0.0
+    };
     size_t verts_size = sizeof(vertices);
+	GLuint indices[] = {
+		0, 2, 1, 
+		1, 2, 3,
+		4, 5, 6, 
+		5, 7, 6,
+		0, 1, 4, 
+		1, 5, 4,
+		2, 6, 3, 
+		3, 6, 7,
+		0, 4, 2, 
+		2, 4, 6,
+		1, 3, 5, 
+		3, 7, 5,
+	};
+    int num_indices = 36;
     size_t indices_size = sizeof(indices);
-    //short indices_size = sizeof(indices);
     VertexArrayBuffer *vbuffer = new VertexArrayBuffer(vertices, verts_size, 6, 3, indices, indices_size, num_indices);
     
     //Give the program and vertex buffer to the renderer
@@ -85,5 +89,4 @@ int main(int argc, char* argv[]) {
     delete context;
     
     return 0;
-
 }

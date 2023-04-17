@@ -10,6 +10,8 @@ class VertexBuilder {
     public:
         VertexBuilder* start(int dimensionality, int positions_len, float *positions);
 
+        VertexBuilder* concat(int stride, std::vector<float> another);
+
         VertexBuilder* concat(int stride, int another_len, float *another);
 
         int size();

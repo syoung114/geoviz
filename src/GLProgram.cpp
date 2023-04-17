@@ -1,6 +1,8 @@
 #include "GLProgram.h"
 
 #include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <string>
 #include <vector>
@@ -25,4 +27,9 @@ GLProgram::~GLProgram() {
 
 void GLProgram::use_program() {
     glUseProgram(this->_program);
+}
+
+void GLProgram::set_uniform_mat4fv(std::string uniform, glm::mat4 mat) {
+    int loc = glGetUniformLocation(this->_program, uniform.c_str());
+    glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat));
 }

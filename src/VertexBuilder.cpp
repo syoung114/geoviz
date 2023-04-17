@@ -15,6 +15,11 @@ VertexBuilder* VertexBuilder::start(int dimensionality, int positions_len, float
     //destroy the internal
 //}
 
+VertexBuilder* VertexBuilder::concat(int stride, std::vector<float> another) {
+    float *another_ptr = another.data();
+    return concat(stride, another.size(), another_ptr);
+}
+
 VertexBuilder* VertexBuilder::concat(int stride, int another_len, float *another) {
     if (!this->_stride || this->_stride == -1) {
         //I assume I will never pass a negative number into the stride arg. I could make it a uint16_t but that is overly cautionary
