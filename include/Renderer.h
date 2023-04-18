@@ -20,6 +20,9 @@ class Renderer {
     public:
         Renderer(GLProgram &program, VertexArrayBuffer &vertex_buffer, Vec4f &clear_color);
 
+        /**
+         * Updates the transformation matrices and draws all the provided VertexArrayBuffers.
+         */
         void draw(int screen_width, int screen_height);
 };
 

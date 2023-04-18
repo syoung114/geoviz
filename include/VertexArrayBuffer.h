@@ -16,7 +16,7 @@ class VertexArrayBuffer {
   
         int _shape;
         int _shape_unit;
-        int _unit_count;
+        int _num_attributes;
 
 		GLuint _varray;
 		GLuint _vbuffer;
@@ -27,14 +27,23 @@ class VertexArrayBuffer {
         void _unbind();
 
 	public:
-        VertexArrayBuffer(float *verts, std::size_t verts_size, int shape, int shape_unit, GLuint *indices, size_t indices_size, short num_indices);
+        VertexArrayBuffer();
 
         ~VertexArrayBuffer();
 
-        void set_vertices(float *verts, std::size_t verts_size, int shape, int shape_unit, GLuint *indices, size_t indices_size, short num_indices);
+        /*
+         * Define what this object should render.
+         */
+        void set_vertices(float *verts, std::size_t verts_size, int shape, int shape_unit, GLuint *indices, size_t indices_size);
 
+        /**
+         * Move the data to the GPU
+         */
 		void buffer();
 
+        /**
+         * Draws the contents of this object. Assumes a context, program, and a renderer has been created, and you've provided this object some vertices.
+         */
         void draw(); 
 };
 

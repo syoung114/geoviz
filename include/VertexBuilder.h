@@ -10,12 +10,24 @@ class VertexBuilder {
     public:
         VertexBuilder* start(int dimensionality, int positions_len, float *positions);
 
+        /**
+         * Adds another component to each vertex.
+         */
         VertexBuilder* concat(int stride, std::vector<float> another);
 
+        /**
+         * Adds another component to each vertex.
+         */
         VertexBuilder* concat(int stride, int another_len, float *another);
 
+        /**
+         * Returns the number of bytes contained
+         */
         int size();
 
+        /**
+         * Complete building and return a usable array pointer
+         */
         float* finish();
 };
 

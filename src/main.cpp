@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 
     //Buffer some vertices, giving positions and rgb to a vertex buffer.
     	
-    VertexBuilder vb;
+    //VertexBuilder vb;
     /*
     float *vertices = vb
         .start(3,9,positions)
@@ -70,9 +70,11 @@ int main(int argc, char* argv[]) {
 		1, 3, 5, 
 		3, 7, 5,
 	};
-    int num_indices = 36;
     size_t indices_size = sizeof(indices);
-    VertexArrayBuffer *vbuffer = new VertexArrayBuffer(vertices, verts_size, 6, 3, indices, indices_size, num_indices);
+
+    //Create the arraybuffer and give it the vertices and indices we just defined, and some addiional information about how we defined it.
+    VertexArrayBuffer *vbuffer = new VertexArrayBuffer();
+    vbuffer->set_vertices(vertices, verts_size, 6, 3, indices, indices_size);
     
     //Give the program and vertex buffer to the renderer
     Vec4f clear_color = {0.0, 0.0, 0.05f, 1.0};

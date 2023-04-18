@@ -12,24 +12,25 @@
 * @shaders The final shaders to be used in the program.
 */
 GLProgram::GLProgram(std::vector<GLuint> &shaders) {
-    this->_program = glCreateProgram();
+    _program = glCreateProgram();
     
     //Loop through the shaders and attach them to the program
     for (const auto &shader : shaders) {
-        glAttachShader(this->_program, shader);
+        glAttachShader(_program, shader);
     }
 
-    glLinkProgram(this->_program);
+    glLinkProgram(_program);
 }
 GLProgram::~GLProgram() {
-    glDeleteProgram(this->_program);
+    glDeleteProgram(_program);
 }
 
 void GLProgram::use_program() {
-    glUseProgram(this->_program);
+    glUseProgram(_program);
 }
 
 void GLProgram::set_uniform_mat4fv(std::string uniform, glm::mat4 mat) {
-    int loc = glGetUniformLocation(this->_program, uniform.c_str());
+    //Get the index of the matrix uniform and knowing it, assign the new value
+    int loc = glGetUniformLocation(_program, uniform.c_str());
     glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat));
 }
