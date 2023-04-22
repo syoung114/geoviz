@@ -4,12 +4,12 @@
 #include <glm/glm.hpp>
 
 #include "GLProgram.h"
-#include "VertexArrayBuffer.h"
+#include "VertexIndexMediator.h"
 #include "Vec4f.h"
 
 class Renderer {
     private:
-        VertexArrayBuffer *_vbuffer;
+        VertexIndexMediator *_vbuffer;
         GLProgram *_program;
         Vec4f *_clear_color;
 
@@ -18,7 +18,7 @@ class Renderer {
         glm::mat4 _proj;
 
     public:
-        Renderer(GLProgram &program, VertexArrayBuffer &vertex_buffer, Vec4f &clear_color);
+        Renderer(GLProgram &program, VertexIndexMediator &vi_mediator, Vec4f &clear_color);
 
         /**
          * Updates the transformation matrices and draws all the provided VertexArrayBuffers.

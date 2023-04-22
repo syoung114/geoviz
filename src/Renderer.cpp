@@ -1,16 +1,15 @@
-#include "Renderer.h"
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Renderer.h"
 #include "GLProgram.h"
-#include "VertexArrayBuffer.h"
+#include "VertexIndexMediator.h"
 #include "Vec4f.h"
 
 //TODO should have a vector of vertexarraybuffers instead.
 
-Renderer::Renderer(GLProgram &program, VertexArrayBuffer &vertex_buffer, Vec4f &clear_color) {
-    _vbuffer = &vertex_buffer;
+Renderer::Renderer(GLProgram &program, VertexIndexMediator &vi_mediator, Vec4f &clear_color) {
+    _vbuffer = &vi_mediator;
     _program = &program;
     _clear_color = &clear_color;
     

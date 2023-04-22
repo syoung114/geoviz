@@ -19,7 +19,7 @@ add_subdirectory(lib/glfw)
 #    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS /ENTRY:mainCRTStartup")
 #endif()
 
-set(SRC_FILES src/main.cpp src/GLFWContextManager.cpp src/GLProgram.cpp src/VertexArrayBuffer.cpp src/Renderer.cpp src/ShaderFactory.cpp src/VertexBuilder.cpp)
+set(SRC_FILES src/main.cpp src/GLFWContextManager.cpp src/GLProgram.cpp src/VertexArrayBuffer.cpp src/Renderer.cpp src/ShaderFactory.cpp src/VertexBuilder.cpp src/IndexBuffer.cpp src/VertexIndexMediator.cpp)
 #add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES})
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 #add_library(glad glad.c glad.h)

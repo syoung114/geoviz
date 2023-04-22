@@ -11,7 +11,8 @@
 #include "Renderer.h"
 #include "VertexArrayBuffer.h"
 #include "Vec4f.h"
-
+#include "VertexIndexMediator.h"
+#include "IndexBuffer.h"
 #include "VertexBuilder.h"
 
 int main(int argc, char* argv[]) {
@@ -73,12 +74,17 @@ int main(int argc, char* argv[]) {
     size_t indices_size = sizeof(indices);
 
     //Create the arraybuffer and give it the vertices and indices we just defined, and some addiional information about how we defined it.
-    VertexArrayBuffer *vbuffer = new VertexArrayBuffer();
-    vbuffer->set_vertices(vertices, verts_size, 6, 3, indices, indices_size);
+    VertexArrayBuffer *vabuffer = new VertexArrayBuffer();
+    vabuffer->update(vertices, verts_size, 6, 3);
+
+    IndexBuffer *ibuffer = new IndexBuffer();
+    ibuffer->update(indices, indices_size);
     
+    VertexIndexMediator *vimediator = new VertexIndexMediator(*vabuffer, *ibuffer);
+
     //Give the program and vertex buffer to the renderer
     Vec4f clear_color = {0.0, 0.0, 0.05f, 1.0};
-    Renderer *renderer = new Renderer(*program, *vbuffer, clear_color);
+    Renderer *renderer = new Renderer(*program, *vimediator, clear_color);
    
     //Now that we have created a renderer we can attach it to the window and activate the window.
     context->set_renderer(*renderer);
@@ -86,8 +92,10 @@ int main(int argc, char* argv[]) {
     
     //We created pointers to object instances. In this case we must manually clean them up. Out of good practice the order matters: LIFO
     delete renderer;
+    delete vimediator;
+    //delete ibuffer;
+    //delete vabuffer;
     delete program;
-    delete vbuffer;
     delete context;
     
     return 0;
