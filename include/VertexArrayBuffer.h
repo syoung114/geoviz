@@ -29,8 +29,6 @@ class VertexArrayBuffer : public IBindable {
 
         ~VertexArrayBuffer();
 
-        //IBindable* binding_call(IBindable &b) override;
-
         template<typename F>
         void binding_call(F fn) {
             _bind();

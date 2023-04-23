@@ -60,14 +60,6 @@ void VertexArrayBuffer::_unbind() {
         glDisableVertexAttribArray(a);
     }
 }
-/*
-IBindable* VertexArrayBuffer::binding_call(IBindable &b) {
-    _bind();
-    IBindable *result = b.binding_call(*this);
-    _unbind();
-    return result;
-}
-*/
 
 void VertexArrayBuffer::buffer() {
     _bind();

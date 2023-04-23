@@ -23,15 +23,12 @@ class IndexBuffer : public IBindable {
 
         ~IndexBuffer();
 
-        //IBindable* binding_call(IBindable &b) override;
-
         template<typename F>
         void binding_call(F fn) {
             _bind();
             fn();
             _unbind();        
         };
-        //void binding_call(F fn) override;
 
         /*
          * Define what this object should render.

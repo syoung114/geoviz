@@ -21,7 +21,7 @@ IndexBuffer::~IndexBuffer() {
 void IndexBuffer::update(GLuint *indices, size_t indices_size) {
     _indices = indices;
     _indices_size = indices_size;
-    _num_indices = _indices_size / sizeof(short);
+    _num_indices = _indices_size / sizeof(GLuint);
 }
 
 void IndexBuffer::_bind() {
@@ -31,22 +31,7 @@ void IndexBuffer::_bind() {
 void IndexBuffer::_unbind() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
-/*
-IBindable* IndexBuffer::binding_call(IBindable &b) {
-    _bind();
-    IBindable *result = b.binding_call(*this);
-    _unbind();
-    return result;
-}
-*/
-//template<typename F>
-/*
-void IndexBuffer::binding_call(F fn) {
-    _bind();
-    fn();
-    _unbind();
-}
-*/
+
 void IndexBuffer::buffer() { 
     _bind();
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices_size, 0, GL_STATIC_DRAW);
