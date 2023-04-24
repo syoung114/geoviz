@@ -14,6 +14,7 @@
 #include "VertexIndexMediator.h"
 #include "IndexBuffer.h"
 #include "VertexBuilder.h"
+#include "ShaderFile.h"
 
 int main(int argc, char* argv[]) {
     //Create a context (window) that will be used to render the thing. 
@@ -21,13 +22,13 @@ int main(int argc, char* argv[]) {
     GLFWContextManager *context = new GLFWContextManager(window_args);
  
     //Create the shaders
-    std::vector<GLuint> shaders;
+    std::vector<ShaderFile> shaders;
     std::string wd = "/home/steven/desktop/geoviz";
     shaders.push_back(
-        ShaderFactory::read_and_create(wd + "/src/shaders/v.glsl", GL_VERTEX_SHADER)
+        ShaderFactory::read_shader_file(wd + "/src/shaders/v.glsl")
     );
     shaders.push_back(
-        ShaderFactory::read_and_create(wd + "/src/shaders/f.glsl", GL_FRAGMENT_SHADER)
+        ShaderFactory::read_shader_file(wd + "/src/shaders/f.glsl")
     );
         
     //Create the opengl program using the shaders.

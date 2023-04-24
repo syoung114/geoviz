@@ -7,11 +7,15 @@
 #include <string>
 #include <vector>
 
+#include "ShaderFile.h"
+
 class GLProgram {
     private:
         GLuint _program;
+
+        GLuint _create_shader(const ShaderFile &file);
     public:
-        GLProgram(std::vector<GLuint> &shaders);
+        GLProgram(std::vector<ShaderFile> shaders);
 
         ~GLProgram();
 

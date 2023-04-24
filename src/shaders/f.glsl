@@ -1,3 +1,4 @@
+GL_FRAGMENT_SHADER
 #version 330 core
 in vec3 vertex_color;
 

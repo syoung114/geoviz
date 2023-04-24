@@ -4,33 +4,45 @@
 #include <fstream>
 #include <string>
 
-std::string ShaderFactory::read_shader_file(const std::string &filename) {
+GLenum ShaderFactory::get_shader_type(std::string str) {
+    if (str == "GL_VERTEX_SHADER") {
+        return GL_VERTEX_SHADER;
+    }
+    else if (str == "GL_FRAGMENT_SHADER") {
+        return GL_FRAGMENT_SHADER;
+    }
+    else if (str == "GL_GEOMETRY_SHADER") {
+        return GL_GEOMETRY_SHADER;
+    }
+    else if (str == "GL_COMPUTE_SHADER") {
+        return GL_COMPUTE_SHADER;
+    }
+    //TODO Implement other shader types as needed
+    else {
+        throw std::runtime_error("Invalid shader type");
+    }
+}
+
+ShaderFile ShaderFactory::read_shader_file(const std::string &filename) {
     std::string source;
     std::ifstream file(filename.c_str());
     if (!file.good()) {
         throw std::runtime_error("Failed to read file " + filename + "; file.good() returned false");
     }
-    if (file.is_open()) {
-        std::string line;
-        while (std::getline(file, line)) {
-             source += line + '\n';
+    std::string line;
+    bool first_line = true;
+    GLenum type;
+    while (std::getline(file, line)) {
+        if (first_line) {
+            type = get_shader_type(line);
+            first_line = false;
+        }
+        else {
+            source += line + '\n';
         }
     }
     file.close();
     source += '\0';
-    return source;
-}
-
-GLuint ShaderFactory::create(const std::string &shader_source, GLenum shader_type) {
-    GLuint shader = glCreateShader(shader_type);
-    const char* shader_source_ptr = shader_source.c_str();
-    glShaderSource(shader, 1, &shader_source_ptr, NULL);
-    glCompileShader(shader);
-    return shader;
-}
-
-GLuint ShaderFactory::read_and_create(const std::string &filename, GLenum shader_type) {
-    const std::string shader_source = ShaderFactory::read_shader_file(filename);
-    GLuint shader = ShaderFactory::create(shader_source, shader_type);
-    return shader;
+    ShaderFile sf(source, type);
+    return sf;
 }

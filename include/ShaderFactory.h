@@ -4,22 +4,19 @@
 #include <glad/glad.h>
 #include <string>
 
+#include "ShaderFile.h"
+
 class ShaderFactory {
     public:
         /**
-         * Returns the contents of a shader file
+         * Retuns the GL enum representation of a given shader
          */
-        static std::string read_shader_file(const std::string &filename);
-        
-        /**
-         * Returns a id to a compiled gl shader
-         */
-        static GLuint create(const std::string &shader_source, GLenum shader_type);
+        static GLenum get_shader_type(std::string str);
 
         /**
-         * Reads a shader file and immediately compiles it, returning the id
+         * Returns the contents of a shader file
          */
-        static GLuint read_and_create(const std::string &filename, GLenum shader_type);
+        static ShaderFile read_shader_file(const std::string &filename);
 };
 
 #endif
