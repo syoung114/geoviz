@@ -1,6 +1,6 @@
 # geoviz
 
-Personal scripts for making specific 3D visualisations that I can't find anywhere or prefer to write myself. You probably won't ever need them. Also includes a well-encapsulated OOP rendering backend I made which I prefer over the many OpenGL tutorials that use functional programming.
+Personal scripts for making specific 3D visualisations that I can't find anywhere or prefer to write myself. You probably won't ever need them. Also includes a well-encapsulated object-oriented rendering backend I made which I prefer over the many OpenGL tutorials that use procedural programming.
 
 ## Voxel Cylinder Ramp
 
