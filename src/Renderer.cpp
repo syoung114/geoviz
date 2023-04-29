@@ -33,11 +33,11 @@ void Renderer::draw(int screen_width, int screen_height) {
     _program->use_program();
 
     _world = glm::rotate(_world, glm::radians(0.5f), glm::vec3(1.0f, 0.0f, 1.0f));
+
+    glm::mat4 mvp = _proj * _view * _world;
     
     //Give the transformation matrices to the shaders
-    _program->set_uniform_mat4fv("world", _world);
-    _program->set_uniform_mat4fv("view", _view);
-    _program->set_uniform_mat4fv("proj", _proj);
+    _program->set_uniform_mat4fv("model_view_proj", mvp);
 
     _vbuffer->buffer();
     _vbuffer->draw();
