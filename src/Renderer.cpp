@@ -32,7 +32,7 @@ void Renderer::draw(int screen_width, int screen_height) {
 
     _program->use_program();
 
-    _world = glm::rotate(_world, glm::radians(0.5f), glm::vec3(1.0f, 0.0f, 1.0f));
+    //_world *= glm::rotate(glm::mat4(1.0), glm::radians(0.5f), glm::vec3(1.0f, 0.0f, 1.0f));
 
     glm::mat4 mvp = _proj * _view * _world;
     
@@ -41,4 +41,8 @@ void Renderer::draw(int screen_width, int screen_height) {
 
     _vbuffer->buffer();
     _vbuffer->draw();
+}
+
+void Renderer::mult_world_matrix(glm::mat4 other) {
+    _world *= other;
 }

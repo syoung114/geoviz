@@ -7,14 +7,20 @@
 #include <GLFW/glfw3.h>
 
 class GLFWContextManager {
-    private:
+    //private:
+    public:
         GLFWwindow *_window;
-        Renderer *_renderer;
     
         int _width;
-        int _height;    
+        int _height;
+
+    //public:
+        Renderer *_renderer;
+        double _mouse_last_x;
+        double _mouse_last_y;
+
+        bool _mouse_down;
         
-    public:
         GLFWContextManager(GLFWwindowArgs &window);
 
         ~GLFWContextManager();
@@ -22,6 +28,10 @@ class GLFWContextManager {
         void set_renderer(Renderer &renderer);
 
         int run();
+
+        static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+
+        static void mouse_position_callback(GLFWwindow* window, double x, double y);
 };
 
 #endif

@@ -24,6 +24,8 @@ class Renderer {
          * Updates the transformation matrices and draws all the provided VertexArrayBuffers.
          */
         void draw(int screen_width, int screen_height);
+
+        void mult_world_matrix(glm::mat4 other);
 };
 
 #endif
