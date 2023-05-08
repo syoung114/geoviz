@@ -2,6 +2,8 @@
 
 Personal scripts for making specific 3D visualisations that I can't find anywhere or prefer to write myself. You probably won't ever need them. Also includes a well-encapsulated object-oriented rendering backend I made which I prefer over the many OpenGL tutorials that use procedural programming.
 
+![geoviz example](doc/cube.GIF)
+
 ## Voxel Cylinder Ramp
 
 This exists to anwer a question that arised while I was playing a game:
