@@ -14,7 +14,20 @@ set(GLFW_INSTALL OFF CACHE BOOL "GLFW lib only")
 
 add_subdirectory(lib/glfw)
 
-set(SRC_FILES src/main.cpp src/GLFWContextManager.cpp src/GLProgram.cpp src/VertexArrayBuffer.cpp src/Renderer.cpp src/ShaderFactory.cpp src/VertexBuilder.cpp src/IndexBuffer.cpp src/VertexIndexMediator.cpp src/ShaderFile.cpp)
+set(
+    SRC_FILES
+    src/main.cpp
+    src/GLFWContextManager.cpp
+    src/GLProgram.cpp
+    src/VertexArrayBuffer.cpp
+    src/Renderer.cpp
+    src/ShaderFactory.cpp
+    src/VertexBuilder.cpp
+    src/IndexBuffer.cpp
+    src/VertexIndexMediator.cpp
+    src/ShaderFile.cpp
+    src/GeomodelConcatenator.cpp
+)
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} glfw glad glm)
