@@ -8,6 +8,11 @@ void GeomodelConcatenator::concat(Geomodel geomodel) {
 }
 
 ImmutableArray<float> GeomodelConcatenator::get_vertices() {
-    ImmutableArray<float> a(_vertices.data(), _vertices.size());
+    ImmutableArray<float> a(_vertices.data(), _vertices.size() * sizeof(float));
+    return a;
+}
+
+ImmutableArray<GLuint> GeomodelConcatenator::get_indices() {
+    ImmutableArray<GLuint> a(_indices.data(), _indices.size() * sizeof(GLuint));
     return a;
 }

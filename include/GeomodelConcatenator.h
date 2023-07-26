@@ -15,7 +15,7 @@ class GeomodelConcatenator {
         std::vector<float> _vertices;
         std::vector<GLuint> _indices;
     public:
-        GeomodelConcatenator();
+        GeomodelConcatenator(){};
         void concat(Geomodel model);
         ImmutableArray<float> get_vertices();
         ImmutableArray<GLuint> get_indices();

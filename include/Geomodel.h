@@ -8,7 +8,7 @@ class Geomodel {
     public:
         std::vector<float> vertices;
         std::vector<GLuint> indices;
-        Geomodel();
+        Geomodel(){};
         // Geomodel(std::vector<float> verts, std::vector<GLuint> indcs);
 };
 

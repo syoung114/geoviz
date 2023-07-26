@@ -15,6 +15,8 @@
 #include "IndexBuffer.h"
 #include "VertexBuilder.h"
 #include "ShaderFile.h"
+#include "Geomodel.h"
+#include "GeomodelConcatenator.h"
 
 int main(int argc, char* argv[]) {
     //Create a context (window) that will be used to render the thing. 
@@ -47,7 +49,8 @@ int main(int argc, char* argv[]) {
     int size = 24*sizeof(float);
     */
     
-    float vertices[] = {
+    Geomodel model = Geomodel();
+    model.vertices = {
         -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
         -0.5, -0.5, 0.5, 0.0, 1.0, 0.0,
         -0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
@@ -57,8 +60,7 @@ int main(int argc, char* argv[]) {
         0.5, 0.5, -0.5, 1.0, 1.0, 1.0,
         0.5, 0.5, 0.5, 0.0, 0.0, 0.0
     };
-    size_t verts_size = sizeof(vertices);
-	GLuint indices[] = {
+	model.indices = {
 		0, 2, 1, 
 		1, 2, 3,
 		4, 5, 6, 
@@ -72,19 +74,23 @@ int main(int argc, char* argv[]) {
 		1, 3, 5, 
 		3, 7, 5,
 	};
-    size_t indices_size = sizeof(indices);
+
+    GeomodelConcatenator gmc = GeomodelConcatenator();
+    gmc.concat(model);
+    ImmutableArray<float> va = gmc.get_vertices();
+    ImmutableArray<GLuint> ia = gmc.get_indices();
 
     //Create the arraybuffer and give it the vertices and indices we just defined, and some addiional information about how we defined it.
     VertexArrayBuffer *vabuffer = new VertexArrayBuffer();
-    vabuffer->update(vertices, verts_size, 6, 3);
+    vabuffer->update(va.get_pointer(), va.get_size(), 6, 3);
 
     IndexBuffer *ibuffer = new IndexBuffer();
-    ibuffer->update(indices, indices_size);
+    ibuffer->update(ia.get_pointer(), ia.get_size());
     
     VertexIndexMediator *vimediator = new VertexIndexMediator(*vabuffer, *ibuffer);
 
     //Give the program and vertex buffer to the renderer
-    Vec4f clear_color = {0.0, 0.0, 0.05f, 1.0};
+    Vec4f clear_color = {0.5, 0.5, 0.5, 1.0};
     Renderer *renderer = new Renderer(*program, *vimediator, clear_color);
    
     //Now that we have created a renderer we can attach it to the window and activate the window.
