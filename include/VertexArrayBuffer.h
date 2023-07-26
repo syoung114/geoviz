@@ -7,11 +7,11 @@
 #include <glad/glad.h>
 
 #include "IBindable.h"
+#include "ImmutableArray.h"
 
 class VertexArrayBuffer : public IBindable {
     private:
-        GLfloat *_verts;
-        size_t _verts_size;
+        ImmutableArray<float> _verts;
   
         int _vertex_length;
         int _attribute_length;
@@ -40,7 +40,7 @@ class VertexArrayBuffer : public IBindable {
         /*
          * Define what this object should render.
          */
-        void update(float *verts, std::size_t verts_size, int vertex_length, int num_attributes);
+        void update(ImmutableArray<float> verts, int vertex_length, int num_attributes);
 
         /**
          * Move the data to the GPU

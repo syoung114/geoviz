@@ -7,6 +7,8 @@
 
 #include <glad/glad.h>
 
+#include "ImmutableArray.h"
+
 //TODO once the program becomes more complex I will need a decorator class that manages vertex buffer IDs and draw orchestration
 
 VertexArrayBuffer::VertexArrayBuffer() {
@@ -21,19 +23,17 @@ VertexArrayBuffer::~VertexArrayBuffer() {
 
 /**
  * @param verts The vertices
- * @param verts_size sizeof the vertices. Remember this cannot be sizeof a pointer. It must be the size it would be in array.
  * @param vertex_length How many numbers does a vertex contain? eg. xyz is 3, xyzrgb is 6, xyzrgbijk is 9
  * @param attribute_length Within a vertex, how many numbers are a single unit of information? ie the number to place here for xyzrgb is 3 because xyz and rgb have three numbers that descibe the postion and color 'attributes'.
  */
-void VertexArrayBuffer::update(float *vertices, std::size_t vertices_size, int vertex_length, int attribute_length) {
+void VertexArrayBuffer::update(ImmutableArray<float> verts, int vertex_length, int attribute_length) {
     //Check if the shape makes sense
     if (vertex_length == 0 || attribute_length == 0) {
         throw std::runtime_error("Invalid shape: vertex_length and attribute_length cannot equal zero. vertex_length: " + std::to_string(vertex_length) + " attribute_length: " + std::to_string(attribute_length));
     }
 
     //Class attributes
-    _verts = vertices;
-    _verts_size = vertices_size;
+    _verts = verts;
     _vertex_length = vertex_length;
     _attribute_length = attribute_length;
 
@@ -71,8 +71,8 @@ void VertexArrayBuffer::buffer() {
         );
     }
     //Buffer the vertices and indices
-    glBufferData(GL_ARRAY_BUFFER, _verts_size, 0, GL_STATIC_DRAW);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, _verts_size, _verts);
+    glBufferData(GL_ARRAY_BUFFER, _verts.get_size(), 0, GL_STATIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, _verts.get_size(), _verts.get_pointer());
     _unbind();
 }
 

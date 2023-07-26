@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
 
     //Create the arraybuffer and give it the vertices and indices we just defined, and some addiional information about how we defined it.
     VertexArrayBuffer *vabuffer = new VertexArrayBuffer();
-    vabuffer->update(va.get_pointer(), va.get_size(), 6, 3);
+    vabuffer->update(va, 6, 3);
 
     IndexBuffer *ibuffer = new IndexBuffer();
     ibuffer->update(ia.get_pointer(), ia.get_size());
