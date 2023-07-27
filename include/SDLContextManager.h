@@ -4,12 +4,14 @@
 #include "GLFWwindowArgs.h"
 #include "Renderer.h"
 
-#include <GLFW/glfw3.h>
+#include <SDL3/SDL.h>
 
-class GLFWContextManager {
+class SDLContextManager {
     //private:
     public:
-        GLFWwindow *_window;
+        SDL_Window *_window;
+        SDL_GLContext _context;
+        SDL_Event _wevent;
     
         int _width;
         int _height;
@@ -21,17 +23,17 @@ class GLFWContextManager {
 
         bool _mouse_down;
         
-        GLFWContextManager(GLFWwindowArgs &window);
+        SDLContextManager(GLFWwindowArgs &window);
 
-        ~GLFWContextManager();
+        ~SDLContextManager();
         
         void set_renderer(Renderer &renderer);
 
         int run();
 
-        static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+        static void mouse_button_callback(SDL_Window* window, int button, int action, int mods);
 
-        static void mouse_position_callback(GLFWwindow* window, double x, double y);
+        static void mouse_position_callback(SDL_Window* window, double x, double y);
 };
 
 #endif

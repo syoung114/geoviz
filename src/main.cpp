@@ -5,7 +5,7 @@
 
 //Relevant header files from this project
 #include "GLFWwindowArgs.h"
-#include "GLFWContextManager.h"
+#include "SDLContextManager.h"
 #include "ShaderFactory.h"
 #include "GLProgram.h"
 #include "Renderer.h"
@@ -21,7 +21,7 @@
 int main(int argc, char* argv[]) {
     //Create a context (window) that will be used to render the thing. 
     GLFWwindowArgs window_args = {800, 800, "test"};
-    GLFWContextManager *context = new GLFWContextManager(window_args);
+    SDLContextManager *context = new SDLContextManager(window_args);
  
     //Create the shaders
     std::vector<ShaderFile> shaders;
