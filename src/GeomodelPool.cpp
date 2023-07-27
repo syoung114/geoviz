@@ -1,10 +1,21 @@
+#include <algorithm>
+
 #include "Geomodel.h"
 #include "ImmutableArray.h"
 #include "GeomodelPool.h"
 
 void GeomodelPool::concat(Geomodel geomodel) {
     _vertices.insert(_vertices.end(), geomodel.vertices.begin(), geomodel.vertices.end());
-    _indices.insert(_indices.end(), geomodel.indices.begin(), geomodel.indices.end());
+
+    //We need to convert model-relative indices to absolute indices. Not doing this means all indices count from zero, which is not the case for multiple objects.
+    GLuint max = _indices.size() > 0
+        ? *std::max_element(_indices.begin(), _indices.end()) + 1
+        : 0;
+    std::vector<GLuint> other(geomodel.indices);
+    for (int i = 0; i < other.size(); i++) {
+        other.at(i) += max;
+    }
+    _indices.insert(_indices.end(), other.begin(), other.end());
 }
 
 ImmutableArray<float> GeomodelPool::get_vertices() {
