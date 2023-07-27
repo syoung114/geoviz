@@ -7,8 +7,8 @@
 #include <SDL3/SDL.h>
 
 class SDLContextManager {
-    //private:
-    public:
+    private:
+    // public:
         SDL_Window *_window;
         SDL_GLContext _context;
         SDL_Event _wevent;
@@ -16,7 +16,7 @@ class SDLContextManager {
         int _width;
         int _height;
 
-    //public:
+    public:
         Renderer *_renderer;
         double _mouse_last_x;
         double _mouse_last_y;
@@ -30,10 +30,6 @@ class SDLContextManager {
         void set_renderer(Renderer &renderer);
 
         int run();
-
-        static void mouse_button_callback(SDL_Window* window, int button, int action, int mods);
-
-        static void mouse_position_callback(SDL_Window* window, double x, double y);
 };
 
 #endif
