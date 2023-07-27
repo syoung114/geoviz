@@ -6,10 +6,11 @@
 #include <glad/glad.h>
 
 #include "IBindable.h"
+#include "ImmutableArray.h"
 
 class IndexBuffer : public IBindable {
     private:
-        GLuint *_indices;
+        ImmutableArray<GLuint> _indices;
         size_t _indices_size;
         short _num_indices;
         GLuint _ibuffer;
@@ -33,7 +34,7 @@ class IndexBuffer : public IBindable {
         /*
          * Define what this object should render.
          */
-        void update(GLuint *indices, size_t indices_size);
+        void update(ImmutableArray<GLuint> indices);
 
         /**
          * Move the data to the GPU

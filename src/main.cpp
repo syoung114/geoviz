@@ -75,17 +75,17 @@ int main(int argc, char* argv[]) {
 		3, 7, 5,
 	};
 
-    GeomodelPool gmc = GeomodelPool();
-    gmc.concat(model);
-    ImmutableArray<float> va = gmc.get_vertices();
-    ImmutableArray<GLuint> ia = gmc.get_indices();
+    GeomodelPool model_pool = GeomodelPool();
+    model_pool.concat(model);
+    ImmutableArray<float> va = model_pool.get_vertices();
+    ImmutableArray<GLuint> ia = model_pool.get_indices();
 
     //Create the arraybuffer and give it the vertices and indices we just defined, and some addiional information about how we defined it.
     VertexArrayBuffer *vabuffer = new VertexArrayBuffer();
     vabuffer->update(va, 6, 3);
 
     IndexBuffer *ibuffer = new IndexBuffer();
-    ibuffer->update(ia.get_pointer(), ia.get_size());
+    ibuffer->update(ia);
     
     VertexIndexMediator *vimediator = new VertexIndexMediator(*vabuffer, *ibuffer);
 
