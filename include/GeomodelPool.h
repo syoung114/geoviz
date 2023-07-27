@@ -9,13 +9,13 @@
 /**
  * Wrapper class that collates homogeneously-structured `Geomodel`s into a single vector for buffering
 */
-class GeomodelConcatenator {
+class GeomodelPool {
     
     private:
         std::vector<float> _vertices;
         std::vector<GLuint> _indices;
     public:
-        GeomodelConcatenator(){};
+        GeomodelPool(){};
         void concat(Geomodel model);
         ImmutableArray<float> get_vertices();
         ImmutableArray<GLuint> get_indices();

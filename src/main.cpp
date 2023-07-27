@@ -16,7 +16,7 @@
 #include "VertexBuilder.h"
 #include "ShaderFile.h"
 #include "Geomodel.h"
-#include "GeomodelConcatenator.h"
+#include "GeomodelPool.h"
 
 int main(int argc, char* argv[]) {
     //Create a context (window) that will be used to render the thing. 
@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
 		3, 7, 5,
 	};
 
-    GeomodelConcatenator gmc = GeomodelConcatenator();
+    GeomodelPool gmc = GeomodelPool();
     gmc.concat(model);
     ImmutableArray<float> va = gmc.get_vertices();
     ImmutableArray<GLuint> ia = gmc.get_indices();

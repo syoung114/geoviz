@@ -26,7 +26,7 @@ set(
     src/IndexBuffer.cpp
     src/VertexIndexMediator.cpp
     src/ShaderFile.cpp
-    src/GeomodelConcatenator.cpp
+    src/GeomodelPool.cpp
 )
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
