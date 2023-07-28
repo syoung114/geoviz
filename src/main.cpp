@@ -4,50 +4,11 @@
 #include <iostream>
 
 //Relevant header files from this project
-#include "../include/GLFWwindowArgs.h"
-#include "../include/SDLContextManager.h"
-#include "../include/ShaderFactory.h"
-#include "../include/GLProgram.h"
-#include "../include/Renderer.h"
-#include "../include/VertexArrayBuffer.h"
-#include "../include/Vec4f.h"
-#include "../include/VertexIndexMediator.h"
-#include "../include/IndexBuffer.h"
-#include "../include/VertexBuilder.h"
-#include "../include/ShaderFile.h"
+#include "../include/Geoviz.h"
 #include "../include/Geomodel.h"
 #include "../include/GeomodelPool.h"
 
 int main(int argc, char* argv[]) {
-    //Create a context (window) that will be used to render the thing. 
-    GLFWwindowArgs window_args = {800, 800, "test"};
-    SDLContextManager *context = new SDLContextManager(window_args);
- 
-    //Create the shaders
-    std::vector<ShaderFile> shaders;
-    std::string wd = "/home/steven/desktop/geoviz";
-    shaders.push_back(
-        ShaderFactory::read_shader_file(wd + "/src/shaders/v.glsl")
-    );
-    shaders.push_back(
-        ShaderFactory::read_shader_file(wd + "/src/shaders/f.glsl")
-    );
-        
-    //Create the opengl program using the shaders.
-    GLProgram *program = new GLProgram(shaders);
-
-    //Buffer some vertices, giving positions and rgb to a vertex buffer.
-    	
-    //VertexBuilder vb;
-    /*
-    float *vertices = vb
-        .start(3,9,positions)
-        ->concat(3,9,rgb)
-        ->finish();
-    
-    int num_verts = 3;
-    int size = 24*sizeof(float);
-    */
     
     Geomodel model = Geomodel();
     model.vertices = {
@@ -104,33 +65,9 @@ int main(int argc, char* argv[]) {
     GeomodelPool model_pool = GeomodelPool();
     model_pool.concat(model);
     model_pool.concat(model2);
-    ImmutableArray<float> va = model_pool.get_vertices();
-    ImmutableArray<GLuint> ia = model_pool.get_indices();
-
-    //Create the arraybuffer and give it the vertices and indices we just defined, and some addiional information about how we defined it.
-    VertexArrayBuffer *vabuffer = new VertexArrayBuffer();
-    vabuffer->update(va, 6, 3);
-
-    IndexBuffer *ibuffer = new IndexBuffer();
-    ibuffer->update(ia);
     
-    VertexIndexMediator *vimediator = new VertexIndexMediator(*vabuffer, *ibuffer);
-
-    //Give the program and vertex buffer to the renderer
-    Vec4f clear_color = {0.5, 0.5, 0.5, 1.0};
-    Renderer *renderer = new Renderer(*program, *vimediator, clear_color);
-   
-    //Now that we have created a renderer we can attach it to the window and activate the window.
-    context->set_renderer(*renderer);
-    context->run(); // <- render loop here
-    
-    //We created pointers to object instances. In this case we must manually clean them up. Out of good practice the order matters: LIFO
-    delete renderer;
-    delete vimediator;
-    //delete ibuffer;
-    //delete vabuffer;
-    delete program;
-    delete context;
+    Geoviz geo = Geoviz();
+    geo.run(model_pool);
     
     return 0;
 }
