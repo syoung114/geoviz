@@ -17,9 +17,9 @@ SDLContextManager::SDLContextManager(GLFWwindowArgs &window) {
       throw GLInitException();
     }
 
-    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 4 );
-    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 6 );
-    SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     
     _window = SDL_CreateWindow(window.title, window.width, window.height, SDL_WINDOW_OPENGL);
     if (!_window) {
@@ -90,7 +90,6 @@ int SDLContextManager::run() {
         }
         glViewport(0, 0, _width, _height); 
         _renderer->draw(_width, _height);
-        // SDL_Delay(60);
         SDL_GL_SwapWindow(_window);
     }
     run_inf_end:

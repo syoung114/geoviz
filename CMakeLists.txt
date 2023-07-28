@@ -13,16 +13,16 @@ add_subdirectory(lib/SDL)
 set(
     SRC_FILES
     src/main.cpp
-    src/SDLContextManager.cpp
-    src/GLProgram.cpp
-    src/VertexArrayBuffer.cpp
-    src/Renderer.cpp
-    src/ShaderFactory.cpp
-    src/VertexBuilder.cpp
-    src/IndexBuffer.cpp
-    src/VertexIndexMediator.cpp
-    src/ShaderFile.cpp
-    src/GeomodelPool.cpp
+    src/core/SDLContextManager.cpp
+    src/core/GLProgram.cpp
+    src/core/VertexArrayBuffer.cpp
+    src/core/Renderer.cpp
+    src/core/ShaderFactory.cpp
+    src/core/VertexBuilder.cpp
+    src/core/IndexBuffer.cpp
+    src/core/VertexIndexMediator.cpp
+    src/core/ShaderFile.cpp
+    src/core/GeomodelPool.cpp
 )
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 

@@ -7,7 +7,7 @@
 void GeomodelPool::concat(Geomodel geomodel) {
     _vertices.insert(_vertices.end(), geomodel.vertices.begin(), geomodel.vertices.end());
 
-    //We need to convert model-relative indices to absolute indices. Not doing this means all indices count from zero, which is not the case for multiple objects.
+    //We need to convert model-relative indices to absolute indices. Not doing this means all model indices count from zero, which is not the case for rendering multiple objects.
     GLuint max = _indices.size() > 0
         ? *std::max_element(_indices.begin(), _indices.end()) + 1
         : 0;

@@ -4,19 +4,19 @@
 #include <iostream>
 
 //Relevant header files from this project
-#include "GLFWwindowArgs.h"
-#include "SDLContextManager.h"
-#include "ShaderFactory.h"
-#include "GLProgram.h"
-#include "Renderer.h"
-#include "VertexArrayBuffer.h"
-#include "Vec4f.h"
-#include "VertexIndexMediator.h"
-#include "IndexBuffer.h"
-#include "VertexBuilder.h"
-#include "ShaderFile.h"
-#include "Geomodel.h"
-#include "GeomodelPool.h"
+#include "../include/GLFWwindowArgs.h"
+#include "../include/SDLContextManager.h"
+#include "../include/ShaderFactory.h"
+#include "../include/GLProgram.h"
+#include "../include/Renderer.h"
+#include "../include/VertexArrayBuffer.h"
+#include "../include/Vec4f.h"
+#include "../include/VertexIndexMediator.h"
+#include "../include/IndexBuffer.h"
+#include "../include/VertexBuilder.h"
+#include "../include/ShaderFile.h"
+#include "../include/Geomodel.h"
+#include "../include/GeomodelPool.h"
 
 int main(int argc, char* argv[]) {
     //Create a context (window) that will be used to render the thing. 
