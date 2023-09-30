@@ -52,7 +52,8 @@ void SDLContextManager::set_renderer(Renderer &renderer) {
 }
 
 int SDLContextManager::run() {
-    while (true) {
+  //two loops for two functions: the first loop is the program loop and the second is for polling external events from SDL and handling them respectively.
+  while (true) {
         // Check for user quit
         while (SDL_PollEvent(&_wevent)) {
             if (_wevent.type == SDL_EVENT_QUIT) {
