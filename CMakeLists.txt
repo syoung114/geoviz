@@ -24,6 +24,7 @@ set(
     src/core/VertexIndexMediator.cpp
     src/core/ShaderFile.cpp
     src/core/GeomodelPool.cpp
+    src/primitives/PrimitiveBuilder.cpp
 )
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
