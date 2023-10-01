@@ -14,10 +14,10 @@ void bres_step(GeomodelPool& pool, float x, float y, float z) {
     pool_concat(pool, -x,  y, z);
     pool_concat(pool,  x, -y, z);
     pool_concat(pool, -x, -y, z);
-    pool_concat(pool,  x,  x, z);
-    pool_concat(pool, -x,  x, z);
-    pool_concat(pool,  x, -x, z);
-    pool_concat(pool, -x, -x, z);
+    pool_concat(pool,  y,  x, z);
+    pool_concat(pool, -y,  x, z);
+    pool_concat(pool,  y, -x, z);
+    pool_concat(pool, -y, -x, z);
 }
 
 GeomodelPool bresenham(float radius) {
