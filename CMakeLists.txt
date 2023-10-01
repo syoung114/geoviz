@@ -12,7 +12,7 @@ add_subdirectory(lib/SDL)
 
 set(
     SRC_FILES
-    src/main.cpp
+    src/vox-equal-spiral.cpp
     src/core/Geoviz.cpp
     src/core/SDLContextManager.cpp
     src/core/GLProgram.cpp

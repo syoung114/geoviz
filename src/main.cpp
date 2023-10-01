@@ -1,8 +1,3 @@
-//standard libraries
-#include <vector>
-#include <cmath>
-#include <iostream>
-
 //Relevant header files from this project
 #include "../include/Geoviz.h"
 #include "../include/Geomodel.h"
