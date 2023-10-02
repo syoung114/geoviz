@@ -17,7 +17,7 @@ Renderer::Renderer(GLProgram &program, VertexIndexMediator &vi_mediator, Vec4f &
     _world = glm::mat4(1.0);
 
     _view = glm::mat4(1.0);
-    _view = glm::translate(_view, glm::vec3(0.0, 0.0, -95.0));
+    _view = glm::translate(_view, glm::vec3(0.0, 0.0, -5.0));
     
     _proj = glm::mat4(1.0);
     _proj = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);

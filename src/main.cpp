@@ -1,7 +1,6 @@
 //Relevant header files from this project
 #include "../include/Geoviz.h"
 #include "../include/Geomodel.h"
-#include "../include/GeomodelPool.h"
 #include "../include/PrimitiveBuilder.h"
 
 int main(int argc, char* argv[]) {
@@ -10,7 +9,7 @@ int main(int argc, char* argv[]) {
     Geomodel model2 = PrimitiveBuilder::cube(-2.0,-2.0,-2.0);    
     Geomodel model3 = PrimitiveBuilder::cube(2.0,.0,.0);
 
-    GeomodelPool model_pool = GeomodelPool();
+    Geomodel model_pool = Geomodel(6,3);
     model_pool.concat(model);
     model_pool.concat(model2);
     model_pool.concat(model3);

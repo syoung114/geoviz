@@ -15,18 +15,16 @@ Geomodel PrimitiveBuilder::cube(float x, float y, float z, float r, float g, flo
     float half_h = h/2;
     float half_l = l/2;
   
-    Geomodel model = Geomodel();
-    model.vertices = {
-      -half_w+x, -half_h+y, -half_l+z,  r, g, b, 
-      -half_w+x, -half_h+y,  half_l+z,  r, g, b,
-      -half_w+x,  half_h+y, -half_l+z,  r, g, b,
-      -half_w+x,  half_h+y,  half_l+z,  r, g, b,
-       half_w+x, -half_h+y, -half_l+z,  r, g, b,
-       half_w+x, -half_h+y,  half_l+z,  r, g, b,
-       half_w+x,  half_h+y, -half_l+z,  r, g, b,
-       half_w+x,  half_h+y,  half_l+z,  r, g, b
-    };
-    model.indices = {
+    Geomodel model = Geomodel(3, 6, {
+        -half_w+x, -half_h+y, -half_l+z,  r, g, b, 
+        -half_w+x, -half_h+y,  half_l+z,  r, g, b,
+        -half_w+x,  half_h+y, -half_l+z,  r, g, b,
+        -half_w+x,  half_h+y,  half_l+z,  r, g, b,
+         half_w+x, -half_h+y, -half_l+z,  r, g, b,
+         half_w+x, -half_h+y,  half_l+z,  r, g, b,
+         half_w+x,  half_h+y, -half_l+z,  r, g, b,
+         half_w+x,  half_h+y,  half_l+z,  r, g, b
+      },{
         0, 2, 1,
         1, 2, 3,
         4, 5, 6,
@@ -39,6 +37,7 @@ Geomodel PrimitiveBuilder::cube(float x, float y, float z, float r, float g, flo
         2, 4, 6,
         1, 3, 5,
         3, 7, 5,
-    };
+    });
+    
     return model;
 }

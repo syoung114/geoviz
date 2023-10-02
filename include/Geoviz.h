@@ -1,12 +1,12 @@
 #ifndef GEOVIZ_H
 #define GEOVIZ_H
 
-#include "GeomodelPool.h"
+#include "Geomodel.h"
 
 class Geoviz {
     public:
         Geoviz(){};
-        void run(GeomodelPool model_pool);
+        void run(Geomodel model_pool);
 };
 
 #endif

@@ -17,9 +17,8 @@
 #include "VertexBuilder.h"
 #include "ShaderFile.h"
 #include "Geomodel.h"
-#include "GeomodelPool.h"
 
-void Geoviz::run(GeomodelPool model_pool) {
+void Geoviz::run(Geomodel model_pool) {
     //Create a context (window) that will be used to render the thing. 
     GLFWwindowArgs window_args = {800, 800, "test"};
     SDLContextManager *context = new SDLContextManager(window_args);
@@ -56,7 +55,7 @@ void Geoviz::run(GeomodelPool model_pool) {
 
     //Create the arraybuffer and give it the vertices and indices we just defined, and some addiional information about how we defined it.
     VertexArrayBuffer *vabuffer = new VertexArrayBuffer();
-    vabuffer->update(va, 6, 3);
+    vabuffer->update(va, model_pool.get_stride(), model_pool.get_parts_per_attribute());
 
     IndexBuffer *ibuffer = new IndexBuffer();
     ibuffer->update(ia);
