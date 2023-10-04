@@ -1,36 +1,78 @@
 #include <cmath>
+#include <vector>
+#include <unordered_set>
+#include <string>
+#include <iostream>
 
 #include "../include/Geoviz.h"
 #include "../include/Geomodel.h"
 #include "../include/PrimitiveBuilder.h"
 
-void pool_concat(Geomodel& pool, float x, float y, float depth) {
-    pool.concat(
-        PrimitiveBuilder::cube(x, y, depth)
-    );
+void pool_concat(std::vector<Geomodel>& pool, std::unordered_set<std::string>& coordinates, int x, int y, int depth) {
+    std::string coords_str = std::to_string(x) + "," + std::to_string(y);
+    if (coordinates.find(coords_str) == coordinates.end()) {
+        pool.push_back(
+            PrimitiveBuilder::cube(x, y, depth)
+        );
+        coordinates.insert(coords_str);
+    }
 }
 
-void bres_step(Geomodel& pool, float x, float y, float z) {
+void bres_step(std::vector<Geomodel>& pool, std::unordered_set<std::string>& coordinates, int x, int y, int z) {
     //the depth of voxels in a so-called 'pool_concat group' is ordered by the pool_concat calling order in this function. in other words, if you passed depth to be z*nth_line, the topmost group is the first line. this is an inherent observation. 
-    pool_concat(pool,  x,  y, z);//top right
-    pool_concat(pool,  y,  x, z);//middle top right
-    pool_concat(pool,  y, -x, z);//middle bottom right
-    pool_concat(pool,  x, -y, z);//bottom right
-    pool_concat(pool, -x, -y, z);//bottom left
-    pool_concat(pool, -y, -x, z);//middle bottom left
-    pool_concat(pool, -y,  x, z);//middle top left
-    pool_concat(pool, -x,  y, z);//top left
+    pool_concat(pool, coordinates,  x,  y, z);//top right
+    pool_concat(pool, coordinates,  y,  x, z);//middle top right, reversed
+    pool_concat(pool, coordinates,  y, -x, z);//middle bottom right
+    pool_concat(pool, coordinates,  x, -y, z);//bottom right, reversed
+    pool_concat(pool, coordinates, -x, -y, z);//bottom left
+    pool_concat(pool, coordinates, -y, -x, z);//middle bottom left, reversed
+    pool_concat(pool, coordinates, -y,  x, z);//middle top left
+    pool_concat(pool, coordinates, -x,  y, z);//top left. reversed
 }
 
-Geomodel bresenham_circle(float radius) {
-    //dont ask me how this works. I just adapted from it from https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
-    float x = 0;
-    float y = radius;
-    float d = 3 - 2*radius;
-    float z = 0.0;
-    Geomodel pool = Geomodel(3, 6);
+void spiralize_bres(std::vector<Geomodel>& pool, int levels) {
+  //int descend_every = 360/levels;
+  //int vox_per_degree = pool.size() / 360;
+    std::vector<int> stride_indices;
+    for (int i = 0; i < pool.size(); i += 8) {
+        stride_indices.push_back(i);
+    }
+    bool reverse = false;
+    for (int i = 0, j = 0, k = 0; i < pool.size(); i++, j++) {
+      if (j >= stride_indices.size()) {
+            j = 0;
+            k++;
+            reverse = !reverse;
+        }
+        
+        if (reverse) {
+            pool.at(
+                stride_indices.at(stride_indices.size() - j - 1) + k
+            ).translate(.0,0.0,i);
+        }
+        else {
+            pool.at(
+                stride_indices.at(j) + k
+            ).translate(.0,0.0,i);
+        }
+    }
+}
 
-    bres_step(pool, x, y, x);
+Geomodel bresenham_circle(int radius) {
+    //dont ask me how this works. I just adapted from it from https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
+    int x = 0;
+    int y = radius;
+    int d = 3 - 2*radius;
+    int z = 0.0;
+
+    //Create a vector to group Geomodels and reference them late
+    std::vector<Geomodel> pool;
+
+    //We need a map to keep track of whether a cube already exists at a specific coordinate. This can be done already using an algorithm on the vector but I prefer the simple option.
+    //It turns out I can't do a map of pairs so I am doing a hacky way: string representation of coordinate pairs.
+    std::unordered_set<std::string> coordinate_p;
+
+    //bres_step(pool, coordinate_p, x, y, x);
 
     while (y >= x++) {
         if (d > 0) {
@@ -40,25 +82,26 @@ Geomodel bresenham_circle(float radius) {
         else {
             d += 4*x + 6;
         }
-        z += 1.0;
-        bres_step(pool, x, y, z);
+        bres_step(pool, coordinate_p, x, y, z);
     }
-    return pool;
-}
-
-void spiralize_bres(Geomodel& circle_set) {
-    //for (int i = 0; i < circle_set.length(); i++) {
-    //     
-    //}
+       
+    spiralize_bres(pool, 1);
+    Geomodel universe = Geomodel(3, 6);
+    for (Geomodel p : pool) {
+        universe.concat(p);
+    }
+    return universe;
 }
 
 int main(int argc, char* argv[]) {
-    Geomodel model = PrimitiveBuilder::cube(0.0,0.0,0.0,0.0,1.0,0.0);
-    Geomodel model2 = PrimitiveBuilder::cube(-2.0,-2.0,-2.0);
-    Geomodel model3 = PrimitiveBuilder::cube(2.0,2.0,2.0,.0,.0,.5);
-    model.concat(model2);
-    model.concat(model3); 
+    //Geomodel model = PrimitiveBuilder::cube(0.0,0.0,0.0,0.0,1.0,0.0);
+    //Geomodel model2 = PrimitiveBuilder::cube(-1.0,-2.0,-2.0);
+    //Geomodel model3 = PrimitiveBuilder::cube(1.0,1.0,2.0,.0,.0,.5);
+    //model3.translate(0.0, -30.0, 0.0);
+    //model.concat(model2);
+    //model.concat(model3); 
     
+    Geomodel model = bresenham_circle(20);
     Geoviz geo = Geoviz();
     geo.run(model);
 

@@ -77,5 +77,9 @@ ImmutableArray<GLuint> Geomodel::get_indices() {
 }
 
 void Geomodel::translate(float x, float y, float z) {
-
+    for (size_t i = 0; i < _vertices.size(); i += get_stride()) {
+        _vertices[i] += x;
+        _vertices[i+1] += y;
+        _vertices[i+2] += z;
+    }
 }
