@@ -30,7 +30,7 @@ void bres_step(std::vector<Geomodel>& pool, std::unordered_set<std::string>& coo
     pool_concat(pool, coordinates, -x,  y, z);//top left. reversed
 }
 
-void spiralize_bres(std::vector<Geomodel>& pool, int levels) {
+void spiralize_bres(std::vector<Geomodel>& pool) {
   //int descend_every = 360/levels;
   //int vox_per_degree = pool.size() / 360;
     std::vector<int> stride_indices;
@@ -48,17 +48,47 @@ void spiralize_bres(std::vector<Geomodel>& pool, int levels) {
         if (reverse) {
             pool.at(
                 stride_indices.at(stride_indices.size() - j - 1) + k
-            ).translate(.0,0.0,i);
+            ).translate(0,0,i);
         }
         else {
             pool.at(
                 stride_indices.at(j) + k
-            ).translate(.0,0.0,i);
+            ).translate(0,0,i);
         }
     }
 }
 
-Geomodel bresenham_circle(int radius) {
+void spiralize_bres(std::vector<Geomodel>& pool, int levels) {
+    std::vector<int> stride_indices;
+    for (int i = 0; i < pool.size(); i += 8) {
+        stride_indices.push_back(i);
+    }
+    
+    bool reverse = false;
+    int descend_every = pool.size() / levels;
+    float current_depth = 0;
+    for (int i = 0, j = 0, k = 0; i < pool.size(); i++, j++) {
+      if (i % descend_every == 0) current_depth++;
+      if (j >= stride_indices.size()) {
+            j = 0;
+            k++;
+            reverse = !reverse;
+        }
+        
+        if (reverse) {
+            pool.at(
+                stride_indices.at(stride_indices.size() - j - 1) + k
+            ).translate(.0,0.0,current_depth);
+        }
+        else {
+            pool.at(
+                stride_indices.at(j) + k
+            ).translate(.0,0.0,current_depth);
+        }
+    }
+}
+
+std::vector<Geomodel> bresenham_circle(int radius) {
     //dont ask me how this works. I just adapted from it from https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
     int x = 0;
     int y = radius;
@@ -72,8 +102,6 @@ Geomodel bresenham_circle(int radius) {
     //It turns out I can't do a map of pairs so I am doing a hacky way: string representation of coordinate pairs.
     std::unordered_set<std::string> coordinate_p;
 
-    //bres_step(pool, coordinate_p, x, y, x);
-
     while (y >= x++) {
         if (d > 0) {
             y--;
@@ -84,13 +112,8 @@ Geomodel bresenham_circle(int radius) {
         }
         bres_step(pool, coordinate_p, x, y, z);
     }
-       
-    spiralize_bres(pool, 1);
-    Geomodel universe = Geomodel(3, 6);
-    for (Geomodel p : pool) {
-        universe.concat(p);
-    }
-    return universe;
+
+    return pool;
 }
 
 int main(int argc, char* argv[]) {
@@ -101,9 +124,17 @@ int main(int argc, char* argv[]) {
     //model.concat(model2);
     //model.concat(model3); 
     
-    Geomodel model = bresenham_circle(20);
+    std::vector<Geomodel> bcircle = bresenham_circle(50);
+       
+    spiralize_bres(bcircle, 3);
+
+    Geomodel universe = Geomodel(3, 6);
+    for (Geomodel m : bcircle) {
+        universe.concat(m);
+    }
+
     Geoviz geo = Geoviz();
-    geo.run(model);
+    geo.run(universe);
 
     return 0;
 }
