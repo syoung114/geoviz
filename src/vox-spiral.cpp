@@ -1,3 +1,5 @@
+#include "../include/vox-spiral.h"
+
 #include <cmath>
 #include <vector>
 #include <unordered_set>
@@ -115,27 +117,3 @@ std::vector<Geomodel> bresenham_circle(int radius) {
 
     return pool;
 }
-
-int main(int argc, char* argv[]) {
-    //Geomodel model = PrimitiveBuilder::cube(0.0,0.0,0.0,0.0,1.0,0.0);
-    //Geomodel model2 = PrimitiveBuilder::cube(-1.0,-2.0,-2.0);
-    //Geomodel model3 = PrimitiveBuilder::cube(1.0,1.0,2.0,.0,.0,.5);
-    //model3.translate(0.0, -30.0, 0.0);
-    //model.concat(model2);
-    //model.concat(model3); 
-    
-    std::vector<Geomodel> bcircle = bresenham_circle(50);
-       
-    spiralize_bres(bcircle, 3);
-
-    Geomodel universe = Geomodel(3, 6);
-    for (Geomodel m : bcircle) {
-        universe.concat(m);
-    }
-
-    Geoviz geo = Geoviz();
-    geo.run(universe);
-
-    return 0;
-}
-

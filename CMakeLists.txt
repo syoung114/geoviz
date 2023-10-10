@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.20)
 project(geoviz)
+
+set(CMAKE_CXX_STANDARD 11)
 
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
@@ -9,10 +11,12 @@ include_directories(include)
 add_subdirectory(lib/glad)
 add_subdirectory(lib/glm)
 add_subdirectory(lib/SDL)
+add_subdirectory(lib/cxxopts)
 
 set(
     SRC_FILES
-    src/vox-equal-spiral.cpp
+    src/main.cpp
+    src/vox-spiral.cpp
     src/core/Geoviz.cpp
     src/core/SDLContextManager.cpp
     src/core/GLProgram.cpp
@@ -28,4 +32,4 @@ set(
 )
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} SDL3::SDL3 glad glm)
+target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} SDL3::SDL3 glad glm cxxopts)
