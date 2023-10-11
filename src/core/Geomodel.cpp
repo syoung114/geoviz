@@ -47,7 +47,7 @@ void Geomodel::_concat(ImmutableArray<float> other_verts, ImmutableArray<GLuint>
     _num_parts++;
 }
 
-void Geomodel::concat(Geomodel other) {
+void Geomodel::concat(Geomodel& other) {
     if (_attribute_shape != other.get_parts_per_attribute() || _stride != other.get_stride()) {
         throw std::runtime_error("Geomodel attribute buffer mismatch");
     }
