@@ -21,7 +21,7 @@
 void Geoviz::run(Geomodel model_pool) {
     //Create a context (window) that will be used to render the thing. 
     GLFWwindowArgs window_args = {800, 800, "test"};
-    SDLContextManager *context = new SDLContextManager(window_args);
+    SDLContextManager context = SDLContextManager(window_args);
  
     //Create the shaders
     std::vector<ShaderFile> shaders;
@@ -34,7 +34,7 @@ void Geoviz::run(Geomodel model_pool) {
     );
         
     //Create the opengl program using the shaders.
-    GLProgram *program = new GLProgram(shaders);
+    GLProgram program = GLProgram(shaders);
 
     //Buffer some vertices, giving positions and rgb to a vertex buffer.
     	
@@ -54,28 +54,19 @@ void Geoviz::run(Geomodel model_pool) {
     ImmutableArray<GLuint> ia = model_pool.get_indices();
 
     //Create the arraybuffer and give it the vertices and indices we just defined, and some addiional information about how we defined it.
-    VertexArrayBuffer *vabuffer = new VertexArrayBuffer();
-    vabuffer->update(va, model_pool.get_stride(), model_pool.get_parts_per_attribute());
+    VertexArrayBuffer vabuffer = VertexArrayBuffer();
+    vabuffer.update(va, model_pool.get_stride(), model_pool.get_parts_per_attribute());
 
-    IndexBuffer *ibuffer = new IndexBuffer();
-    ibuffer->update(ia);
+    IndexBuffer ibuffer = IndexBuffer();
+    ibuffer.update(ia);
     
-    VertexIndexMediator *vimediator = new VertexIndexMediator(*vabuffer, *ibuffer);
+    VertexIndexMediator vimediator = VertexIndexMediator(vabuffer, ibuffer);
 
     //Give the program and vertex buffer to the renderer
     Vec4f clear_color = {0.5, 0.5, 0.5, 1.0};
-    Renderer *renderer = new Renderer(*program, *vimediator, clear_color);
+    Renderer renderer = Renderer(program, vimediator, clear_color);
    
     //Now that we have created a renderer we can attach it to the window and activate the window.
-    context->set_renderer(*renderer);
-    context->run(); // <- render loop here
-    
-    //We created pointers to object instances. In this case we must manually clean them up. Out of good practice the order matters: LIFO
-    delete renderer;
-    delete vimediator;
-    //delete ibuffer;
-    //delete vabuffer;
-    delete program;
-    delete context;
-    
+    context.set_renderer(renderer);
+    context.run(); // <- render loop here
 }
