@@ -23,7 +23,6 @@ set(
     src/core/VertexArrayBuffer.cpp
     src/core/Renderer.cpp
     src/core/ShaderFactory.cpp
-    src/core/VertexBuilder.cpp
     src/core/IndexBuffer.cpp
     src/core/VertexIndexMediator.cpp
     src/core/ShaderFile.cpp

@@ -14,7 +14,6 @@
 #include "Vec4f.h"
 #include "VertexIndexMediator.h"
 #include "IndexBuffer.h"
-#include "VertexBuilder.h"
 #include "ShaderFile.h"
 #include "Geomodel.h"
 
@@ -35,20 +34,6 @@ void Geoviz::run(Geomodel model_pool) {
         
     //Create the opengl program using the shaders.
     GLProgram program = GLProgram(shaders);
-
-    //Buffer some vertices, giving positions and rgb to a vertex buffer.
-    	
-    //VertexBuilder vb;
-    /*
-    float *vertices = vb
-        .start(3,9,positions)
-        ->concat(3,9,rgb)
-        ->finish();
-    
-    int num_verts = 3;
-    int size = 24*sizeof(float);
-    */
-    
     
     ImmutableArray<float> va = model_pool.get_vertices();
     ImmutableArray<GLuint> ia = model_pool.get_indices();
