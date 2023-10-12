@@ -1,4 +1,4 @@
-#ifndef GLFW_CONTEXT_LOGICH
+#ifndef GLFW_CONTEXT_LOGIC_H
 #define GLFW_CONTEXT_LOGIC_H
 
 #include "GLFWwindowArgs.h"
