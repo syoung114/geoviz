@@ -5,7 +5,10 @@
 #include "Renderer.h"
 
 #include <SDL3/SDL.h>
-#include <functional>
+
+/**
+ * Abstract superclass that manages everything about SDL. User input and runtime logic is delegated to derived classes.
+ */
 class SDLContext {
     private:
         SDL_Window *_window;
@@ -21,11 +24,12 @@ class SDLContext {
 	SDLContext(GLFWwindowArgs &window);
         
     public:
-        int run();
-
         virtual ~SDLContext();
+
         void set_renderer(Renderer &renderer);
+
 	virtual void frame_update() = 0;
+	int run(); //not virtual but strongly relies on frame_update.
 
 };
 

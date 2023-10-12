@@ -1,11 +1,7 @@
 #include "SDLContext.h"
 
-#include <functional>
-
 #include <glad/glad.h>
 #include <SDL3/SDL.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 #include "GLInitException.h"
 #include "GLFWwindowArgs.h"
@@ -57,12 +53,13 @@ int SDLContext::run() {
         while (SDL_PollEvent(&_wevent)) {
             if (_wevent.type == SDL_EVENT_QUIT) {
                 goto run_inf_end;
+		//yeah yeah, 'unga bunga goto bad'. This solution has the least lines if I add more logic inside/after these loops. In that case, do you really want to read all those boolean checks and break statements?
             }
             else {
                 this->frame_update();
+        _renderer->draw(_width, _height);
             }
         }
-        _renderer->draw(_width, _height);
         SDL_GL_SwapWindow(_window);
     }
     run_inf_end:
