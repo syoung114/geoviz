@@ -6,7 +6,7 @@
 
 //Relevant header files from this project
 #include "Geoviz.h"
-#include "GLFWwindowArgs.h"
+#include "SDLWindowArgs.h"
 #include "SDLContext.h"
 #include "SDLContextLogic.h"
 #include "ShaderFactory.h"
@@ -21,7 +21,7 @@
 
 void Geoviz::run(Geomodel model_pool) {
     //Create a context (window) that will be used to render the thing. 
-    GLFWwindowArgs window_args = {800, 800, "Geoviz"};
+    SDLWindowArgs window_args = {800, 800, "Geoviz"};
     std::unique_ptr<SDLContext> context = std::make_unique<SDLContextLogic>(window_args);
  
     //Create the shaders

@@ -1,7 +1,7 @@
-#ifndef GLFW_CONTEXT_LOGIC_H
-#define GLFW_CONTEXT_LOGIC_H
+#ifndef SDL_CONTEXT_LOGIC_H
+#define SDL_CONTEXT_LOGIC_H
 
-#include "GLFWwindowArgs.h"
+#include "SDLWindowArgs.h"
 #include "SDLContext.h"
 
 #include <SDL3/SDL.h>
@@ -13,7 +13,7 @@ class SDLContextLogic : public SDLContext {
 	double _mouse_last_y;
     public:
 	~SDLContextLogic(){}
-        SDLContextLogic(GLFWwindowArgs &window) : SDLContext(window) {
+        SDLContextLogic(SDLWindowArgs &window) : SDLContext(window) {
 	    _mouse_down = false;
 	    _mouse_last_x = 0.0;
 	    _mouse_last_y = 0.0;

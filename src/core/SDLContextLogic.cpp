@@ -7,7 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "GLInitException.h"
-#include "GLFWwindowArgs.h"
+#include "SDLWindowArgs.h"
 
 #include "Renderer.h"
 

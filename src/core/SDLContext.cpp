@@ -4,11 +4,11 @@
 #include <SDL3/SDL.h>
 
 #include "GLInitException.h"
-#include "GLFWwindowArgs.h"
+#include "SDLWindowArgs.h"
 
 #include "Renderer.h"
 
-SDLContext::SDLContext(GLFWwindowArgs &window) {
+SDLContext::SDLContext(SDLWindowArgs &window) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
       throw GLInitException();
     }
