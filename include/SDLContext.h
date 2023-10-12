@@ -20,9 +20,9 @@ class SDLContext {
         
 	SDLContext(GLFWwindowArgs &window);
         
-        int _run(std::function<void()> fn);
-
     public:
+        int run();
+
         virtual ~SDLContext();
         void set_renderer(Renderer &renderer);
 	virtual void frame_update() = 0;

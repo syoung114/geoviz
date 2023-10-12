@@ -55,5 +55,5 @@ void Geoviz::run(Geomodel model_pool) {
    
     //Now that we have created a renderer we can attach it to the window and activate the window.
     context->set_renderer(renderer);
-    context->frame_update(); // <- render loop here
+    context->run(); // <- render loop here
 }
