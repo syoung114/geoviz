@@ -1,4 +1,4 @@
-#include "SDLContextManager.h"
+#include "SDLContext.h"
 
 #include <string.h>
 
@@ -12,7 +12,7 @@
 
 #include "Renderer.h"
 
-SDLContextManager::SDLContextManager(GLFWwindowArgs &window) {
+SDLContext::SDLContext(GLFWwindowArgs &window) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
       throw GLInitException();
     }
@@ -41,18 +41,19 @@ SDLContextManager::SDLContextManager(GLFWwindowArgs &window) {
     // SDL_SetWindowData(_window, "ContextManager", this);
 
 }
-SDLContextManager::~SDLContextManager() {
+SDLContext::~SDLContext() {
     SDL_GL_DeleteContext(_context);
     SDL_DestroyWindow(_window);
     SDL_Quit();
 }
 
-void SDLContextManager::set_renderer(Renderer &renderer) {
+void SDLContext::set_renderer(Renderer &renderer) {
     this->_renderer = &renderer;
 }
 
-int SDLContextManager::run() {
+int SDLContext::run() {
   //two loops for two functions: the first loop is the program loop and the second is for polling external events from SDL and handling them respectively.
+  glViewport(0, 0, _width, _height); 
   while (true) {
         // Check for user quit
         while (SDL_PollEvent(&_wevent)) {
@@ -89,7 +90,6 @@ int SDLContextManager::run() {
                 }
             }
         }
-        glViewport(0, 0, _width, _height); 
         _renderer->draw(_width, _height);
         SDL_GL_SwapWindow(_window);
     }

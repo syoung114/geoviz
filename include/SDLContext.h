@@ -6,7 +6,7 @@
 
 #include <SDL3/SDL.h>
 
-class SDLContextManager {
+class SDLContext {
     private:
     // public:
         SDL_Window *_window;
@@ -23,9 +23,9 @@ class SDLContextManager {
 
         bool _mouse_down;
         
-        SDLContextManager(GLFWwindowArgs &window);
+        SDLContext(GLFWwindowArgs &window);
 
-        ~SDLContextManager();
+        ~SDLContext();
         
         void set_renderer(Renderer &renderer);
 

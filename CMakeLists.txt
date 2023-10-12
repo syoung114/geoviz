@@ -18,7 +18,7 @@ set(
     src/main.cpp
     src/vox-spiral.cpp
     src/core/Geoviz.cpp
-    src/core/SDLContextManager.cpp
+    src/core/SDLContext.cpp
     src/core/GLProgram.cpp
     src/core/VertexArrayBuffer.cpp
     src/core/Renderer.cpp
