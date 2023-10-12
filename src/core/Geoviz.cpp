@@ -2,11 +2,13 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include <memory>
 
 //Relevant header files from this project
 #include "Geoviz.h"
 #include "GLFWwindowArgs.h"
 #include "SDLContext.h"
+#include "SDLContextLogic.h"
 #include "ShaderFactory.h"
 #include "GLProgram.h"
 #include "Renderer.h"
@@ -20,7 +22,7 @@
 void Geoviz::run(Geomodel model_pool) {
     //Create a context (window) that will be used to render the thing. 
     GLFWwindowArgs window_args = {800, 800, "Geoviz"};
-    SDLContext context = SDLContext(window_args);
+    std::unique_ptr<SDLContext> context = std::make_unique<SDLContextLogic>(window_args);
  
     //Create the shaders
     std::vector<ShaderFile> shaders;
@@ -52,6 +54,6 @@ void Geoviz::run(Geomodel model_pool) {
     Renderer renderer = Renderer(program, vimediator, clear_color);
    
     //Now that we have created a renderer we can attach it to the window and activate the window.
-    context.set_renderer(renderer);
-    context.run(); // <- render loop here
+    context->set_renderer(renderer);
+    context->frame_update(); // <- render loop here
 }

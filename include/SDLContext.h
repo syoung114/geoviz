@@ -5,31 +5,28 @@
 #include "Renderer.h"
 
 #include <SDL3/SDL.h>
-
+#include <functional>
 class SDLContext {
     private:
-    // public:
         SDL_Window *_window;
         SDL_GLContext _context;
-        SDL_Event _wevent;
     
         int _width;
         int _height;
 
-    public:
+    protected:
+        SDL_Event _wevent;
         Renderer *_renderer;
-        double _mouse_last_x;
-        double _mouse_last_y;
-
-        bool _mouse_down;
         
-        SDLContext(GLFWwindowArgs &window);
-
-        ~SDLContext();
+	SDLContext(GLFWwindowArgs &window);
         
+        int _run(std::function<void()> fn);
+
+    public:
+        virtual ~SDLContext();
         void set_renderer(Renderer &renderer);
+	virtual void frame_update() = 0;
 
-        int run();
 };
 
 #endif

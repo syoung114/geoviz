@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project(geoviz)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
@@ -19,6 +19,7 @@ set(
     src/vox-spiral.cpp
     src/core/Geoviz.cpp
     src/core/SDLContext.cpp
+    src/core/SDLContextLogic.cpp
     src/core/GLProgram.cpp
     src/core/VertexArrayBuffer.cpp
     src/core/Renderer.cpp
