@@ -1,7 +1,7 @@
 #include <glad/glad.h>
 #include <string>
 
-#include <ShaderFile.h>
+#include "core/ShaderFile.h"
 
 ShaderFile::ShaderFile(std::string source, GLenum type) {
     _source = source;

@@ -4,7 +4,7 @@
 #include <vector>
 #include <glad/glad.h>
 
-#include "ImmutableArray.h"
+#include "../util/ImmutableArray.h"
 
 class Geomodel {
     private:

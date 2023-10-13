@@ -3,8 +3,8 @@
 #include <stdexcept>
 #include <iostream>
 
-#include "Geomodel.h"
-#include "ImmutableArray.h"
+#include "core/Geomodel.h"
+#include "util/ImmutableArray.h"
 
 Geomodel::Geomodel(int parts_per_attribute, int stride) {
     _attribute_shape = parts_per_attribute;

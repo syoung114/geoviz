@@ -5,19 +5,20 @@
 #include <memory>
 
 //Relevant header files from this project
-#include "Geoviz.h"
-#include "SDLWindowArgs.h"
-#include "SDLContext.h"
-#include "SDLContextLogic.h"
-#include "ShaderFactory.h"
-#include "GLProgram.h"
-#include "Renderer.h"
-#include "VertexArrayBuffer.h"
-#include "Vec4f.h"
-#include "VertexIndexMediator.h"
-#include "IndexBuffer.h"
-#include "ShaderFile.h"
-#include "Geomodel.h"
+#include "core/Geoviz.h"
+#include "core/SDLWindowArgs.h"
+#include "core/SDLContext.h"
+#include "core/SDLContextLogic.h"
+#include "core/ShaderFactory.h"
+#include "core/GLProgram.h"
+#include "core/Renderer.h"
+#include "core/VertexArrayBuffer.h"
+#include "core/VertexIndexMediator.h"
+#include "core/IndexBuffer.h"
+#include "core/ShaderFile.h"
+#include "core/Geomodel.h"
+#include "util/ImmutableArray.h"
+#include "util/Vec4f.h"
 
 void Geoviz::run(Geomodel model_pool) {
     //Create a context (window) that will be used to render the thing. 

@@ -1,7 +1,7 @@
 #ifndef PRIMITIVE_BUILDER_H
 #define PRIMITIVE_BUILDER_H
 
-#include "Geomodel.h"
+#include "../core/Geomodel.h"
 
 class PrimitiveBuilder {
   public:

@@ -4,8 +4,8 @@
 
 #include <glad/glad.h>
 
-#include "IndexBuffer.h"
-#include "ImmutableArray.h"
+#include "core/IndexBuffer.h"
+#include "util/ImmutableArray.h"
 //TODO once the program becomes more complex I will need a decorator class that manages vertex buffer IDs and draw orchestration
 
 IndexBuffer::IndexBuffer() {

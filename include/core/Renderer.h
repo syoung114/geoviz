@@ -5,7 +5,7 @@
 
 #include "GLProgram.h"
 #include "VertexIndexMediator.h"
-#include "Vec4f.h"
+#include "../util/Vec4f.h"
 
 class Renderer {
     private:

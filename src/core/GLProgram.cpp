@@ -1,4 +1,4 @@
-#include "GLProgram.h"
+#include "core/GLProgram.h"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include <ShaderFile.h>
+#include "core/ShaderFile.h"
 
 /**
 * Creates a openGL program

@@ -1,4 +1,4 @@
-#include "VertexArrayBuffer.h"
+#include "core/VertexArrayBuffer.h"
 
 #include <cstddef>
 #include <stdexcept>
@@ -7,7 +7,7 @@
 
 #include <glad/glad.h>
 
-#include "ImmutableArray.h"
+#include "util/ImmutableArray.h"
 
 //TODO once the program becomes more complex I will need a decorator class that manages vertex buffer IDs and draw orchestration
 

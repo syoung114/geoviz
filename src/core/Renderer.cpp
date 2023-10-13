@@ -1,10 +1,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Renderer.h"
-#include "GLProgram.h"
-#include "VertexIndexMediator.h"
-#include "Vec4f.h"
+#include "core/Renderer.h"
+#include "core/GLProgram.h"
+#include "core/VertexIndexMediator.h"
+#include "util/Vec4f.h"
 
 //TODO should have a vector of vertexarraybuffers instead.
 

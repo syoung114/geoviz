@@ -5,8 +5,8 @@
 #include <unordered_set>
 #include <string>
 
-#include "Geoviz.h"
-#include "Geomodel.h"
+#include "../core/Geoviz.h"
+#include "../core/Geomodel.h"
 
 void pool_concat(std::vector<Geomodel>& pool, std::unordered_set<std::string>& coordinates, int x, int y, int depth);
 

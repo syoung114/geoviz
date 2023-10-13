@@ -1,4 +1,4 @@
-#include "../include/vox-spiral.h"
+#include "../include/program/vox-spiral.h"
 
 #include <cmath>
 #include <vector>
@@ -6,9 +6,9 @@
 #include <string>
 #include <iostream>
 
-#include "../include/Geoviz.h"
-#include "../include/Geomodel.h"
-#include "../include/PrimitiveBuilder.h"
+#include "../include/core/Geoviz.h"
+#include "../include/core/Geomodel.h"
+#include "../include/primitives/PrimitiveBuilder.h"
 
 void pool_concat(std::vector<Geomodel>& pool, std::unordered_set<std::string>& coordinates, int x, int y, int depth) {
     std::string coords_str = std::to_string(x) + "," + std::to_string(y);

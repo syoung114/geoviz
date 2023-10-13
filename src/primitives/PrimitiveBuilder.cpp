@@ -1,5 +1,5 @@
-#include "PrimitiveBuilder.h"
-#include "Geomodel.h"
+#include "primitives/PrimitiveBuilder.h"
+#include "core/Geomodel.h"
 
 Geomodel PrimitiveBuilder::cube(float x, float y, float z) {
   return PrimitiveBuilder::cube(x, y, z, 0.5, 0.0, 0.0);

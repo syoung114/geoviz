@@ -1,12 +1,12 @@
-#include "SDLContext.h"
+#include "core/SDLContext.h"
 
 #include <glad/glad.h>
 #include <SDL3/SDL.h>
 
-#include "GLInitException.h"
-#include "SDLWindowArgs.h"
+#include "exception/GLInitException.h"
+#include "core/SDLWindowArgs.h"
 
-#include "Renderer.h"
+#include "core/Renderer.h"
 
 SDLContext::SDLContext(SDLWindowArgs &window) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {

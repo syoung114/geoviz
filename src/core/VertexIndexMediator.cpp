@@ -1,6 +1,6 @@
-#include "VertexIndexMediator.h"
-#include "VertexArrayBuffer.h"
-#include "IndexBuffer.h"
+#include "core/VertexIndexMediator.h"
+#include "core/VertexArrayBuffer.h"
+#include "core/IndexBuffer.h"
 
 VertexIndexMediator::VertexIndexMediator(VertexArrayBuffer &vab, IndexBuffer &ib) {
     _vertex_array_buffer = &vab;

@@ -1,15 +1,15 @@
-#include "SDLContext.h"
-#include "SDLContextLogic.h"
+#include "core/SDLContext.h"
+#include "core/SDLContextLogic.h"
 
 #include <glad/glad.h>
 #include <SDL3/SDL.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "GLInitException.h"
-#include "SDLWindowArgs.h"
+#include "exception/GLInitException.h"
+#include "core/SDLWindowArgs.h"
 
-#include "Renderer.h"
+#include "core/Renderer.h"
 
 void SDLContextLogic::frame_update() {
     if (_wevent.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
