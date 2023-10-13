@@ -19,8 +19,8 @@ Renderer::Renderer(GLProgram &program, VertexIndexMediator &vi_mediator, Vec4f &
     _view = glm::mat4(1.0);
     _view = glm::translate(_view, glm::vec3(0.0, 0.0, -95.0));
     
-    _proj = glm::mat4(1.0);
-    _proj = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
+    _projection = glm::mat4(1.0);
+    _projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
 
     //Remove fragments 'behind' other fragments
     glEnable(GL_DEPTH_TEST);
@@ -34,10 +34,10 @@ void Renderer::draw(int screen_width, int screen_height) {
 
     //_world *= glm::rotate(glm::mat4(1.0), glm::radians(0.5f), glm::vec3(1.0f, 0.0f, 1.0f));
 
-    glm::mat4 mvp = _proj * _view * _world;
+    glm::mat4 mvp = _projection * _view * _world;
     
     //Give the transformation matrices to the shaders
-    _program->set_uniform_mat4fv("model_view_proj", mvp);
+    _program->set_uniform_mat4fv("model_view_projection", mvp);
 
     _vbuffer->buffer();
     _vbuffer->draw();

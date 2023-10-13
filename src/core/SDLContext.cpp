@@ -46,20 +46,20 @@ void SDLContext::set_renderer(Renderer &renderer) {
 }
 
 int SDLContext::run() {
-  //two loops for two functions: the first loop is the program loop and the second is for polling external events from SDL and handling them respectively.
-  glViewport(0, 0, _width, _height); 
-  while (true) {
-        // Check for user quit
+    //two loops for two functions: the first loop is the program loop and the second is for polling external events from SDL and handling them respectively.
+    glViewport(0, 0, _width, _height); 
+    while (true) {
         while (SDL_PollEvent(&_wevent)) {
             if (_wevent.type == SDL_EVENT_QUIT) {
+        	//yeah yeah, 'unga bunga goto bad'. This solution has the least lines if I add more logic inside/after these loops. In that case, do you really want to read all those boolean checks and break statements?
                 goto run_inf_end;
-		//yeah yeah, 'unga bunga goto bad'. This solution has the least lines if I add more logic inside/after these loops. In that case, do you really want to read all those boolean checks and break statements?
             }
             else {
-                this->frame_update();
-        _renderer->draw(_width, _height);
+                this->frame_update(); //for interactive behaviour
+                _renderer->draw(_width, _height);
             }
         }
+        //_renderer->draw(_width, _height);
         SDL_GL_SwapWindow(_window);
     }
     run_inf_end:

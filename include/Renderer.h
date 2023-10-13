@@ -15,17 +15,18 @@ class Renderer {
 
         glm::mat4 _world;
         glm::mat4 _view;
-        glm::mat4 _proj;
+        glm::mat4 _projection;
 
     public:
         Renderer(GLProgram &program, VertexIndexMediator &vi_mediator, Vec4f &clear_color);
+
+        void mult_world_matrix(glm::mat4 other);
 
         /**
          * Updates the transformation matrices and draws all the provided VertexArrayBuffers.
          */
         void draw(int screen_width, int screen_height);
 
-        void mult_world_matrix(glm::mat4 other);
 };
 
 #endif
