@@ -6,8 +6,6 @@
 #include "core/VertexIndexMediator.h"
 #include "util/Vec4f.h"
 
-//TODO should have a vector of vertexarraybuffers instead.
-
 Renderer::Renderer(GLProgram &program, VertexIndexMediator &vi_mediator, Vec4f &clear_color) {
     _vbuffer = &vi_mediator;
     _program = &program;
@@ -18,15 +16,41 @@ Renderer::Renderer(GLProgram &program, VertexIndexMediator &vi_mediator, Vec4f &
 
     _view = glm::mat4(1.0);
     _view = glm::translate(_view, glm::vec3(0.0, 0.0, -95.0));
-    
+   
+    //create the perspective matrix assuming default values.
+    _aspect = 1.0f;
+    this->set_fov(45);
     _projection = glm::mat4(1.0);
-    _projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
+    _update_projection();
 
     //Remove fragments 'behind' other fragments
     glEnable(GL_DEPTH_TEST);
 }
 
-void Renderer::draw(int screen_width, int screen_height) {
+
+void Renderer::_update_projection() {
+    _projection = glm::perspective(_fov, _aspect, 0.1f, 1000.0f);
+}
+
+
+void Renderer::set_aspect_ratio(int& screen_width, int& screen_height) {
+    _aspect = screen_width / screen_height;
+    _update_projection();
+}
+
+
+void Renderer::set_fov(float radians) {
+    _fov = radians;
+    _update_projection();
+}
+
+
+float Renderer::get_fov() {
+    return _fov;
+}
+
+
+void Renderer::draw(int& screen_width, int& screen_height) {
     glClearColor(_clear_color->x, _clear_color->y, _clear_color->z, _clear_color->w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

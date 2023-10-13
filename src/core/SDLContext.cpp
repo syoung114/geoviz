@@ -23,7 +23,7 @@ SDLContext::SDLContext(SDLWindowArgs &window) {
     }
 
     _context = SDL_GL_CreateContext(_window);
-    if (_context == NULL) {
+    if (_context == NULL || _context == nullptr) {
         throw GLInitException();
     }
 
@@ -51,8 +51,7 @@ int SDLContext::run() {
     while (true) {
         while (SDL_PollEvent(&_wevent)) {
             if (_wevent.type == SDL_EVENT_QUIT) {
-        	//yeah yeah, 'unga bunga goto bad'. This solution has the least lines if I add more logic inside/after these loops. In that case, do you really want to read all those boolean checks and break statements?
-                goto run_inf_end;
+                goto run_inf_end; //yeah yeah, 'unga bunga goto bad'. This solution has the least lines if I add more logic in/around these loops. Do you really want to read all those boolean checks and break statements for the 'correct way'?
             }
             else {
                 this->frame_update(); //for interactive behaviour

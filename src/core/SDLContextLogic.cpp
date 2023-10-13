@@ -1,3 +1,4 @@
+
 #include "core/SDLContext.h"
 #include "core/SDLContextLogic.h"
 
@@ -10,6 +11,7 @@
 #include "core/SDLWindowArgs.h"
 
 #include "core/Renderer.h"
+#define GLM_FORCE_RADIANS
 
 void SDLContextLogic::frame_update() {
     if (_wevent.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
@@ -23,6 +25,18 @@ void SDLContextLogic::frame_update() {
         if (_wevent.button.button == SDL_BUTTON_LEFT) {
             _mouse_down = false;
         }
+    }
+    else if (_wevent.type == SDL_EVENT_MOUSE_WHEEL) {
+        //Adjust the FOV to create a zoom effect when using the scroll wheel.
+	// * Scroll up = higher FOV = zoom out
+	// * Scroll down = lower FOV = zoom in
+	float fov = _renderer->get_fov();
+        if (_wevent.wheel.y > 0 && fov > 0) {
+            _renderer->set_fov(fov - glm::radians(1.0f));
+	}
+	else if (_wevent.wheel.y < 0) {
+            _renderer->set_fov(fov + glm::radians(1.0f));
+	}
     }
     else if (_wevent.type == SDL_EVENT_MOUSE_MOTION) {
         if (_mouse_down) {
