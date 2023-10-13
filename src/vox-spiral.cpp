@@ -1,4 +1,4 @@
-#include "../include/program/vox-spiral.h"
+#include "../include/vox-spiral.h"
 
 #include <cmath>
 #include <vector>

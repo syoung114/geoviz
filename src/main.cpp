@@ -5,7 +5,7 @@
 #include "../include/core/Geoviz.h"
 #include "../include/core/Geomodel.h"
 #include "../include/primitives/PrimitiveBuilder.h"
-#include "../include/program/vox-spiral.h"
+#include "../include/vox-spiral.h"
 
 Geomodel run_test() {
     Geomodel model = PrimitiveBuilder::cube(0.0,0.0,0.0);
