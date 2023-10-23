@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <cxxopts.hpp>
+#include <CLI/CLI.hpp>
 
 #include "../include/core/Geoviz.h"
 #include "../include/core/Geomodel.h"
@@ -21,7 +21,7 @@ Geomodel run_test() {
 }
 
 Geomodel vox_spiral(int radius) {
-    std::vector<Geomodel> bcircle = bresenham_circle(50);
+    std::vector<Geomodel> bcircle = bresenham_circle(radius);
 
     spiralize_bres(bcircle, radius);
 
@@ -35,35 +35,26 @@ Geomodel vox_spiral(int radius) {
 
 int main(int argc, char* argv[]) {
     //Define command line args
-    cxxopts::Options options("Geoviz", "Handcrafted visualiser for custom geometry.");
-    options.parse_positional({"program"});
-    options.add_options()
-        ("program", "Which program you want to run in the visualiser. Options test|solar|vox-spiral", cxxopts::value<std::string>())
-        ("help", "Print this output.");
-    auto args = options.parse(argc, argv);
+    CLI::App app("Geoviz: Handcrafted visualiser for custom geometry.");
+    app.require_subcommand(1);
 
-    if (args.count("help")) {
-        std::cout<<options.help()<<std::endl;
-	return 0;
-    }
-
-    //Find the program they selected and compute the respective model
-    std::string prog_sel = args["program"].as<std::string>();
-    Geomodel model = Geomodel(0,0);
-    if (prog_sel == "test") {
-        model = run_test();
-    }
-    else if (prog_sel == "vox-spiral") {
-        model = vox_spiral(20);
-    }
-    else {
-        std::cout<<"invalid program"<<std::endl;
-	return 0;
-    }
-   
-    Geoviz geo = Geoviz();
-    geo.run(model);
+    CLI::App *spiral_program = app.add_subcommand("vox-spiral", "Given a radius, draw a voxelized spiral that descends evenly until a full revolution.");
     
+    int vox_rad{10};
+    //std::string vox_rad_str;
+    spiral_program->add_option("radius", vox_rad, "How big do you want the spiral?")
+        ->capture_default_str()
+        ->check(CLI::Number)
+        ->required()
+        ;
+    spiral_program->callback([&](){
+        std::cout<<std::to_string(vox_rad)<<std::endl;
+        Geomodel model = vox_spiral(vox_rad);
+        Geoviz geo = Geoviz();
+        geo.run(model);
+    }); 
+    
+    CLI11_PARSE(app, argc, argv);
+
     return 0;
 }
-

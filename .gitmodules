@@ -7,6 +7,6 @@
 [submodule "lib/SDL"]
 	path = lib/SDL
 	url = https://github.com/libsdl-org/SDL
-[submodule "lib/cxxopts"]
-	path = lib/cxxopts
-	url = https://github.com/jarro2783/cxxopts
+[submodule "lib/CLI11"]
+	path = lib/CLI11
+	url = https://github.com/CLIUtils/CLI11

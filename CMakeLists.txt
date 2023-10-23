@@ -11,7 +11,7 @@ include_directories(include)
 add_subdirectory(lib/glad)
 add_subdirectory(lib/glm)
 add_subdirectory(lib/SDL)
-add_subdirectory(lib/cxxopts)
+add_subdirectory(lib/CLI11)
 
 set(
     SRC_FILES
@@ -32,4 +32,4 @@ set(
 )
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} SDL3::SDL3 glad glm cxxopts)
+target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} SDL3::SDL3 glad glm CLI11::CLI11)
