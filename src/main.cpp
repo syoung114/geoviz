@@ -48,7 +48,6 @@ int main(int argc, char* argv[]) {
         ->required()
         ;
     spiral_program->callback([&](){
-        std::cout<<std::to_string(vox_rad)<<std::endl;
         Geomodel model = vox_spiral(vox_rad);
         Geoviz geo = Geoviz();
         geo.run(model);

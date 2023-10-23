@@ -1,27 +1,22 @@
 # geoviz
 
-Personal scripts for making specific 3D visualisations that I can't find anywhere or prefer to write myself. You probably won't ever need them. Also includes a well-encapsulated object-oriented rendering backend I made which I prefer over the many OpenGL tutorials that use procedural programming.
+Geoviz is a basic OpenGL renderer that is designed to compute a static scene of geometry defined from a script you write, allowing for some very niche visualisations. Applications like Blender likely allow you to do this too but I wanted to write another renderer from scratch, this time with object-oriented programming. The tutorials on OpenGL I've seen are usually in a procedural style so I wanted to do it myself.
 
-![geoviz example](doc/cube.GIF)
+## Voxel Spiral
 
-## Voxel Cylinder Ramp
-
-This exists to anwer a question that arised while I was playing a game:
-
-> Given a voxelised cylinder, how should a spiral inside of it be evenly segmented across the height axis?
-
-Well, here is my solution.
-
-**Example**
-
-INSERT GIF
+Given a radius, this program renders a spiral of voxels that descends at even intervals. It was intended to solve a specific problem I had playing a game where I needed to create a 3D spiral but had no obvious resource to reference. Here is my solution.
 
 **Usage**
 
-INSERT ARGUMENTS
+```
+./geoviz vox-spiral <radius>
+```
 
-Cloning the repo and building from source requires you to also init the GLFW and GLM submodules. You will also need to copy the GLAD2 gl4.x files from https://gen.glad.sh/ to the respective folder in `./lib`
+**Example**
 
-**TODO**
+![vox-spiral example](doc/vox-spiral.GIF)
 
-- Different starting and ending positions
+
+***
+
+Cloning the repo and building from source requires you to also init the git submodules. You will also need to copy the GLAD2 gl4.x files from https://gen.glad.sh/ to the respective folder in `./lib`
