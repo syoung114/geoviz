@@ -8,7 +8,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "exception/GLInitException.h"
-#include "core/SDLWindowArgs.h"
 
 #include "core/Renderer.h"
 #define GLM_FORCE_RADIANS
@@ -55,4 +54,5 @@ void SDLContextLogic::frame_update() {
             _mouse_last_y = _wevent.motion.y;
         }
     }    
+    _renderer->draw(_width, _height);
 }

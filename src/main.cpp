@@ -38,10 +38,9 @@ int main(int argc, char* argv[]) {
     CLI::App app("Geoviz: Handcrafted visualiser for custom geometry.");
     app.require_subcommand(1);
 
+    //Voxel spiral subprogram
     CLI::App *spiral_program = app.add_subcommand("vox-spiral", "Given a radius, draw a voxelized spiral that descends evenly until a full revolution.");
-    
     int vox_rad{10};
-    //std::string vox_rad_str;
     spiral_program->add_option("radius", vox_rad, "How big do you want the spiral?")
         ->capture_default_str()
         ->check(CLI::Number)
@@ -49,6 +48,14 @@ int main(int argc, char* argv[]) {
         ;
     spiral_program->callback([&](){
         Geomodel model = vox_spiral(vox_rad);
+        Geoviz geo = Geoviz();
+        geo.run(model);
+    }); 
+    
+    //The debug subprogram
+    CLI::App *test_program = app.add_subcommand("debug", "Display a primitive scene.");
+    test_program->callback([&](){
+        Geomodel model = run_test();
         Geoviz geo = Geoviz();
         geo.run(model);
     }); 

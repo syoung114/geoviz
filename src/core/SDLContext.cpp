@@ -1,14 +1,14 @@
 #include "core/SDLContext.h"
 
+#include <string>
 #include <glad/glad.h>
 #include <SDL3/SDL.h>
 
 #include "exception/GLInitException.h"
-#include "core/SDLWindowArgs.h"
 
 #include "core/Renderer.h"
 
-SDLContext::SDLContext(SDLWindowArgs &window) {
+SDLContext::SDLContext(int width, int height, std::string title) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
       throw GLInitException();
     }
@@ -17,7 +17,7 @@ SDLContext::SDLContext(SDLWindowArgs &window) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     
-    _window = SDL_CreateWindow(window.title, window.width, window.height, SDL_WINDOW_OPENGL);
+    _window = SDL_CreateWindow(title.c_str(), width, height, SDL_WINDOW_OPENGL);
     if (!_window) {
         throw GLInitException();
     }
@@ -27,8 +27,8 @@ SDLContext::SDLContext(SDLWindowArgs &window) {
         throw GLInitException();
     }
 
-    _width = window.width;
-    _height = window.height;
+    _width = width;
+    _height = height;
 
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
         throw GLInitException();
@@ -51,16 +51,15 @@ int SDLContext::run() {
     while (true) {
         while (SDL_PollEvent(&_wevent)) {
             if (_wevent.type == SDL_EVENT_QUIT) {
-                goto run_inf_end; //yeah yeah, 'unga bunga goto bad'. This solution has the least lines if I add more logic in/around these loops. Do you really want to read all those boolean checks and break statements for the 'correct way'?
+                goto done_here; //yeah yeah, 'unga bunga goto bad'. This solution has the least lines if I add more logic in/around these loops. Do you really want to read all those boolean checks and break statements for the 'correct way'?
             }
+	    //insert more global checks here... else if (bla bla) {}
             else {
-                this->frame_update(); //for interactive behaviour
-                _renderer->draw(_width, _height);
+                this->frame_update(); //for interactive behaviour, includes draw call
             }
         }
-        //_renderer->draw(_width, _height);
         SDL_GL_SwapWindow(_window);
     }
-    run_inf_end:
+    done_here:
     return 0;
 }

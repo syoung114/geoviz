@@ -1,9 +1,9 @@
 #ifndef SDL_CONTEXT_MANAGER_H
 #define SDL_CONTEXT_MANAGER_H
 
-#include "SDLWindowArgs.h"
 #include "Renderer.h"
 
+#include <string>
 #include <SDL3/SDL.h>
 
 /**
@@ -14,14 +14,14 @@ class SDLContext {
         SDL_Window *_window;
         SDL_GLContext _context;
     
+    protected:
         int _width;
         int _height;
 
-    protected:
         SDL_Event _wevent;
         Renderer *_renderer;
         
-	SDLContext(SDLWindowArgs &window);
+	SDLContext(int width, int height, std::string title);
         
     public:
         virtual ~SDLContext();
@@ -36,7 +36,7 @@ class SDLContext {
 	/**
 	 * Polymorphic interface to the rendering loop.
 	 */
-	int run(); //not virtual but strongly relies on frame_update.
+	int run(); //not virtual but requires frame_update.
 
 };
 
