@@ -53,7 +53,7 @@ int SDLContext::run() {
             if (_wevent.type == SDL_EVENT_QUIT) {
                 goto done_here; //yeah yeah, 'unga bunga goto bad'. This solution has the least lines if I add more logic in/around these loops. Do you really want to read all those boolean checks and break statements for the 'correct way'?
             }
-	    //insert more global checks here... else if (bla bla) {}
+            //insert more global checks here... else if (bla bla) {}
             else {
                 this->frame_update(); //for interactive behaviour, includes draw call
             }

@@ -1,5 +1,5 @@
 GL_FRAGMENT_SHADER
-#version 330 core
+#version 460 core
 in vec3 vertex_color;
 
 out vec4 FragColor;

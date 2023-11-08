@@ -17,14 +17,14 @@ class VertexArrayBuffer : public IBindable {
         int _attribute_length;
         int _num_attributes;
 
-		GLuint _varray;
-		GLuint _vbuffer;
+                GLuint _varray;
+                GLuint _vbuffer;
 
         void _bind() override;
 
         void _unbind() override;
 
-	public:
+        public:
         VertexArrayBuffer();
 
         ~VertexArrayBuffer();
@@ -45,7 +45,7 @@ class VertexArrayBuffer : public IBindable {
         /**
          * Move the data to the GPU
          */
-		void buffer();
+                void buffer();
 /*
         **
          * Draws the contents of this object. Assumes a context, program, and a renderer has been created, and you've provided this object some vertices.

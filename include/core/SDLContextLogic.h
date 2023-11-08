@@ -8,17 +8,17 @@
 
 class SDLContextLogic : public SDLContext {
     private:
-	bool _mouse_down;
-	double _mouse_last_x;
-	double _mouse_last_y;
+        bool _mouse_down;
+        double _mouse_last_x;
+        double _mouse_last_y;
     public:
-	~SDLContextLogic(){}
+        ~SDLContextLogic(){}
         SDLContextLogic(int width, int height, std::string title) : SDLContext(width, height, title) {
-	    _mouse_down = false;
-	    _mouse_last_x = 0.0;
-	    _mouse_last_y = 0.0;
-	}
-	void frame_update() override;
+            _mouse_down = false;
+            _mouse_last_x = 0.0;
+            _mouse_last_y = 0.0;
+        }
+        void frame_update() override;
 
 };
 

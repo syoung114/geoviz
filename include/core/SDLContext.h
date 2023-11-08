@@ -21,22 +21,22 @@ class SDLContext {
         SDL_Event _wevent;
         Renderer *_renderer;
         
-	SDLContext(int width, int height, std::string title);
+        SDLContext(int width, int height, std::string title);
         
     public:
         virtual ~SDLContext();
 
         void set_renderer(Renderer &renderer);
 
-	/**
-	 * The arbitrary logic contained within the render loop.
-	 */
-	virtual void frame_update() = 0;
+        /**
+         * The arbitrary logic contained within the render loop.
+         */
+        virtual void frame_update() = 0;
 
-	/**
-	 * Polymorphic interface to the rendering loop.
-	 */
-	int run(); //not virtual but requires frame_update.
+        /**
+         * Polymorphic interface to the rendering loop.
+         */
+        int run(); //not virtual but requires frame_update.
 
 };
 

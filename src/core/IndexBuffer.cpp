@@ -6,13 +6,19 @@
 
 #include "core/IndexBuffer.h"
 #include "util/ImmutableArray.h"
+#include "core/VertexArrayObject.h"
 //TODO once the program becomes more complex I will need a decorator class that manages vertex buffer IDs and draw orchestration
 
-IndexBuffer::IndexBuffer() {
-    glGenBuffers(1, &_ibuffer);
+#include <iostream>
+#include<string>
+
+IndexBuffer::IndexBuffer(VertexArrayObject& vao) {
+    glCreateBuffers(1, &_id);
+    glVertexArrayElementBuffer(vao.get_id(), _id);
+    std::cout<<std::to_string(_id) + "\n";
 }
 IndexBuffer::~IndexBuffer() {
-    glDeleteBuffers(1, &_ibuffer);
+    glDeleteBuffers(1, &_id);
 }
 
 /**
@@ -24,19 +30,10 @@ void IndexBuffer::update(ImmutableArray<GLuint> indices) {
     _num_indices = _indices.get_size() / sizeof(GLuint);
 }
 
-void IndexBuffer::_bind() {
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibuffer);
-}
-
-void IndexBuffer::_unbind() {
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
-
 void IndexBuffer::buffer() { 
-    _bind();
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.get_size(), 0, GL_STATIC_DRAW);
-    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, _indices.get_size(), _indices.get_pointer()); 
-    _unbind();
+    glNamedBufferData(_id, _indices.get_size(), 0, GL_STATIC_DRAW);
+    glNamedBufferSubData(_id, 0, _indices.get_size(), _indices.get_pointer()); 
+    //glNamedBufferData(_id, _indices.get_size(), _indices.get_pointer(), GL_STATIC_DRAW);
 }
 
 /**

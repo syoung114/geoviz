@@ -20,11 +20,11 @@ class Geomodel {
         Geomodel(int parts_per_attribute, int stride);
         Geomodel(int parts_per_attribute, int stride, const std::vector<float> verts, const std::vector<GLuint> indices);
         
-	void concat(Geomodel& other);
+        void concat(Geomodel& other);
   
         size_t num_children();
-	int get_parts_per_attribute();
-	int get_stride();
+        int get_parts_per_attribute();
+        int get_stride();
         ImmutableArray<float> get_vertices();
         ImmutableArray<GLuint> get_indices();
 

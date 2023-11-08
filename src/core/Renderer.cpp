@@ -3,12 +3,15 @@
 
 #include "core/Renderer.h"
 #include "core/GLProgram.h"
-#include "core/VertexIndexMediator.h"
 #include "util/Vec4f.h"
+#include "core/VertexArrayObject.h"
 
-Renderer::Renderer(GLProgram &program, VertexIndexMediator &vi_mediator, Vec4f &clear_color) {
+//Renderer::Renderer(GLProgram &program, VertexIndexMediator &vi_mediator, Vec4f &clear_color) {
+Renderer::Renderer(GLProgram &program, IndexBuffer &vi_mediator, VertexBuffer& vbuffer, VertexArrayObject& vao, Vec4f &clear_color) {
     _vbuffer = &vi_mediator;
+    _vb2 = &vbuffer;
     _program = &program;
+    _vao = &vao;
     _clear_color = &clear_color;
     
     //Set the rendering matrices
@@ -54,16 +57,18 @@ void Renderer::draw(int& screen_width, int& screen_height) {
     glClearColor(_clear_color->x, _clear_color->y, _clear_color->z, _clear_color->w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    _vb2->buffer();
+    _vbuffer->buffer();
     _program->use_program();
+    _vao->partial_bind();
 
-    //_world *= glm::rotate(glm::mat4(1.0), glm::radians(0.5f), glm::vec3(1.0f, 0.0f, 1.0f));
+   // _world *= glm::rotate(glm::mat4(1.0), glm::radians(0.5f), glm::vec3(1.0f, 0.0f, 1.0f));
 
     glm::mat4 mvp = _projection * _view * _world;
     
     //Give the transformation matrices to the shaders
     _program->set_uniform_mat4fv("model_view_projection", mvp);
 
-    _vbuffer->buffer();
     _vbuffer->draw();
 }
 

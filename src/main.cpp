@@ -34,6 +34,12 @@ Geomodel vox_spiral(int radius) {
 }
 
 int main(int argc, char* argv[]) {
+
+#ifdef DEBUG_WITH_GDB
+    Geomodel model = run_test();
+    Geoviz geo = Geoviz();
+    geo.run(model);
+#else
     //Define command line args
     CLI::App app("Geoviz: Handcrafted visualiser for custom geometry.");
     app.require_subcommand(1);
@@ -61,6 +67,6 @@ int main(int argc, char* argv[]) {
     }); 
     
     CLI11_PARSE(app, argc, argv);
-
+#endif
     return 0;
 }

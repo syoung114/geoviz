@@ -7,30 +7,32 @@
 
 #include "IBindable.h"
 #include "../util/ImmutableArray.h"
+#include "VertexArrayObject.h"
 
-class IndexBuffer : public IBindable {
+class IndexBuffer {
+//class IndexBuffer : public IBindable {
     private:
         ImmutableArray<GLuint> _indices;
         size_t _indices_size;
         short _num_indices;
-        GLuint _ibuffer;
+        GLuint _id;
 
-        void _bind() override;
+        //void _bind() override;
 
-        void _unbind() override;
+        //void _unbind() override;
 
-	public:
-        IndexBuffer();
+        public:
+        IndexBuffer(VertexArrayObject& vao);
 
         ~IndexBuffer();
-
+/*
         template<typename F>
         void binding_call(F fn) {
             _bind();
             fn();
             _unbind();        
         };
-
+*/
         /*
          * Define what this object should render.
          */
@@ -39,7 +41,7 @@ class IndexBuffer : public IBindable {
         /**
          * Move the data to the GPU
          */
-		void buffer();
+                void buffer();
 
         /**
          * Draws the contents of this object. Assumes a context, program, and a renderer has been created, and you've provided this object some vertices.
