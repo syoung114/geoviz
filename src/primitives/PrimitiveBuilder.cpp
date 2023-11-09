@@ -15,7 +15,7 @@ Geomodel PrimitiveBuilder::cube(float x, float y, float z, float r, float g, flo
     float half_h = h/2;
     float half_l = l/2;
   
-    Geomodel model = Geomodel(3, 6, {
+    Geomodel model = Geomodel({3,3}, {
         -half_w+x, -half_h+y, -half_l+z,  r, g, b, 
         -half_w+x, -half_h+y,  half_l+z,  r, g, b,
         -half_w+x,  half_h+y, -half_l+z,  r, g, b,

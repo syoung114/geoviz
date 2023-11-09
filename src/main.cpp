@@ -12,7 +12,7 @@ Geomodel run_test() {
     Geomodel model2 = PrimitiveBuilder::cube(-2.0,-2.0,-2.0);    
     Geomodel model3 = PrimitiveBuilder::cube(2.0,.0,.0);
 
-    Geomodel model_pool = Geomodel(3,6);
+    Geomodel model_pool = Geomodel({3,3});
     model_pool.concat(model);
     model_pool.concat(model2);
     model_pool.concat(model3);
@@ -25,7 +25,7 @@ Geomodel vox_spiral(int radius) {
 
     spiralize_bres(bcircle, radius);
 
-    Geomodel model = Geomodel(3, 6);
+    Geomodel model = Geomodel({3,3});
     for (Geomodel m : bcircle) {
         model.concat(m);
     }
@@ -37,8 +37,7 @@ int main(int argc, char* argv[]) {
 
 #ifdef DEBUG_WITH_GDB
     Geomodel model = run_test();
-    Geoviz geo = Geoviz();
-    geo.run(model);
+    geoviz_static_run(model);
 #else
     //Define command line args
     CLI::App app("Geoviz: Handcrafted visualiser for custom geometry.");
@@ -54,16 +53,14 @@ int main(int argc, char* argv[]) {
         ;
     spiral_program->callback([&](){
         Geomodel model = vox_spiral(vox_rad);
-        Geoviz geo = Geoviz();
-        geo.run(model);
+        geoviz_static_run(model);
     }); 
     
     //The debug subprogram
     CLI::App *test_program = app.add_subcommand("debug", "Display a primitive scene.");
     test_program->callback([&](){
         Geomodel model = run_test();
-        Geoviz geo = Geoviz();
-        geo.run(model);
+        geoviz_static_run(model);
     }); 
     
     CLI11_PARSE(app, argc, argv);

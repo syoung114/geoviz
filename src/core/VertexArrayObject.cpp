@@ -2,43 +2,21 @@
 
 #include <glad/glad.h>
 
-#include "util/ImmutableArray.h"
-
-#include <string>
-#include <iostream>
-
-//TODO once the program becomes more complex I will need a decorator class that manages vertex buffer IDs and draw orchestration
-
-VertexArrayObject::VertexArrayObject(ImmutableArray<int>& attribute_lengths) {
+VertexArrayObject::VertexArrayObject(const std::vector<int>& attribute_layout) : _attr_layout(&attribute_layout) {
     glCreateVertexArrays(1, &_id);
-    _attributes = &attribute_lengths;
-    std::cout<<std::to_string(_id)<<std::endl;
-
-    //Find the length of the vertex (being the sum of the attribute lengths). Buffers require this information.
-    //TODO optionally integrate the binding loop into this onee. probably not good idea because I think vertices are needed before binding.
-    //_vertex_length = _attributes->get_pointer()[0];
-    //size_t num_attrs = _attributes->get_size() / sizeof(int);
-    //for (int i = 1; i < num_attrs; i++) {
-    //    _vertex_length += _attributes->get_pointer()[i];
-    //}
-_vertex_length = 6;
-    //this->bind();
 }
 
 VertexArrayObject::~VertexArrayObject() {
     glDeleteVertexArrays(1, &_id);
 }
 
-void VertexArrayObject::bind() {
-
+void VertexArrayObject::init() {
     //Read the loop first to understand this variable.
     //The offset needed to specify the beginning of a vertex attribute IS the sum of the attribute lengths we've already iterated
     int current_attr_sum = 0;
 
-    //size_t num_attrs = _attributes->get_size() / sizeof(int);
-    int num_attrs = 2;
-    for (int a = 0; a < num_attrs; a++) {
-        int current_attr = 3;
+    for (int a = 0; a < _attr_layout->size(); a++) {
+        int current_attr = _attr_layout->at(a);
 	
         glEnableVertexArrayAttrib(_id, a);
 	glVertexArrayAttribBinding(_id, a, 0);
@@ -48,24 +26,7 @@ void VertexArrayObject::bind() {
     } 
 }
 
-GLuint VertexArrayObject::get_id() {
-    return _id;
-}
-
-/*
-const ImmutableArray<int>& get_attributes() {
-    return &_attributes;
-}
-*/
-
-int VertexArrayObject::get_vertex_length() {
-    return _vertex_length;
-}
-
-size_t VertexArrayObject::get_num_attrs() {
-    return _attributes->get_size() / sizeof(int);
-}
-
-void VertexArrayObject::partial_bind() {
+void VertexArrayObject::bind() {
+    //TODO check if init() has been run. could return a bool if so. not doing now, currently feeling risky.
     glBindVertexArray(_id);
 }

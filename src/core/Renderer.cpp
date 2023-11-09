@@ -53,14 +53,14 @@ float Renderer::get_fov() {
 }
 
 
-void Renderer::draw(int& screen_width, int& screen_height) {
+void Renderer::draw(const int screen_width, const int screen_height) {
     glClearColor(_clear_color->x, _clear_color->y, _clear_color->z, _clear_color->w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     _vb2->buffer();
     _vbuffer->buffer();
     _program->use_program();
-    _vao->partial_bind();
+    _vao->bind();
 
    // _world *= glm::rotate(glm::mat4(1.0), glm::radians(0.5f), glm::vec3(1.0f, 0.0f, 1.0f));
 

@@ -2,46 +2,31 @@
 #define INDEX_BUFFER_H
 
 #include <cstddef>
+#include <vector>
 
 #include <glad/glad.h>
 
-#include "IBindable.h"
-#include "../util/ImmutableArray.h"
 #include "VertexArrayObject.h"
 
 class IndexBuffer {
-//class IndexBuffer : public IBindable {
     private:
-        ImmutableArray<GLuint> _indices;
-        size_t _indices_size;
-        short _num_indices;
         GLuint _id;
+        const std::vector<GLuint>* _indices;
+	bool _needs_buffer;
 
-        //void _bind() override;
-
-        //void _unbind() override;
-
-        public:
-        IndexBuffer(VertexArrayObject& vao);
-
+    public:
+        IndexBuffer(const VertexArrayObject& vao);
         ~IndexBuffer();
-/*
-        template<typename F>
-        void binding_call(F fn) {
-            _bind();
-            fn();
-            _unbind();        
-        };
-*/
-        /*
-         * Define what this object should render.
-         */
-        void update(ImmutableArray<GLuint> indices);
+
+        void update(const std::vector<GLuint>& indices) {
+            _indices = &indices;
+	    _needs_buffer = true;
+	}
 
         /**
          * Move the data to the GPU
          */
-                void buffer();
+        bool buffer(const bool forceful=false);
 
         /**
          * Draws the contents of this object. Assumes a context, program, and a renderer has been created, and you've provided this object some vertices.

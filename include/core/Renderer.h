@@ -43,7 +43,7 @@ class Renderer {
         /**
          * Updates the transformation matrices and draws all the provided VertexArrayBuffers.
          */
-        void draw(int& screen_width, int& screen_height);
+        void draw(const int screen_width, const int screen_height);
 
 };
 

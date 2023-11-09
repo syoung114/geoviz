@@ -1,29 +1,27 @@
 #ifndef VERTEX_BUFFER_H
 #define VERTEX_BUFFER_H
 
-#include <cstddef>
-#include <functional>
-
 #include <glad/glad.h>
+#include <vector>
 
-#include "IBindable.h"
 #include "VertexArrayObject.h"
-#include "../util/ImmutableArray.h"
 
 class VertexBuffer {
     private:
-        ImmutableArray<float> _verts;
         GLuint _id;
+        const std::vector<float>* _verts;
+	bool _needs_buffer; //see implementation of buffer for further explaination
 	//VertexArrayObject* _vao;
 
     public:
-        VertexBuffer(VertexArrayObject& vao);
-
+        VertexBuffer(const VertexArrayObject& vao, const int vertex_length);
         ~VertexBuffer();
 
-        void buffer();
+	void update(const std::vector<float>& vertices) {
+            _verts = &vertices;
+	    _needs_buffer = true;
+	}
 
-	void update(ImmutableArray<float> verts);
+        bool buffer(const bool forceful=false);
 };
-
 #endif

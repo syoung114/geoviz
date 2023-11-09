@@ -2,34 +2,45 @@
 #define GEOMODEL_H
 
 #include <vector>
+#include <numeric>
 #include <glad/glad.h>
-
-#include "../util/ImmutableArray.h"
 
 class Geomodel {
     private:
-        int _attribute_shape;
-        int _stride;
-        size_t _num_parts;
-        std::vector<float> _vertices;
-        std::vector<GLuint> _indices;
+	// Might seem strange to make only this vector private but it has significant intention: You don't want to allow modification of what defines the layout of a vertex after instantiation. If such an instance is bound to a VBO (it probably is), big trouble if we change the layout and make vertex modifications accordingly. Therefore, keep apples with apples and oranges with oranges.
+	// TODO need class for safe editing of vectors while respecting _attr_layout
+	std::vector<int> _attr_layout;
 
-        void _concat(ImmutableArray<float> verts, ImmutableArray<GLuint> indices);
-  
+	//this is the sum of _attr_layout
+	int _vertex_length;
+	int _accumulate_attr_layout() const {
+            return std::accumulate(_attr_layout.begin(), _attr_layout.end(), 0);
+	}
     public:
-        Geomodel(int parts_per_attribute, int stride);
-        Geomodel(int parts_per_attribute, int stride, const std::vector<float> verts, const std::vector<GLuint> indices);
+        std::vector<float> vertices;
+        std::vector<GLuint> indices;
+
+        Geomodel(const std::vector<int> attribute_layout) : _attr_layout(attribute_layout) {
+            _vertex_length = _accumulate_attr_layout();
+        }
+
+        Geomodel(const std::vector<int> attribute_layout, const std::vector<float> vertices, const std::vector<GLuint> indices)
+	    : _attr_layout(attribute_layout), vertices(vertices), indices(indices)
+	{
+            _vertex_length = _accumulate_attr_layout();
+	}
         
-        void concat(Geomodel& other);
-  
-        size_t num_children();
-        int get_parts_per_attribute();
-        int get_stride();
-        ImmutableArray<float> get_vertices();
-        ImmutableArray<GLuint> get_indices();
+        bool concat(const Geomodel& other);
 
         void translate(float x, float y, float z);
-        // Geomodel(std::vector<float> verts, std::vector<GLuint> indcs);
+
+	const std::vector<int>& get_attribute_layout() const {
+            return _attr_layout;
+        }
+
+	int get_vertex_length() const {
+            return _vertex_length;
+        }
 };
 
 #endif
