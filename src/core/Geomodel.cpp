@@ -27,7 +27,7 @@ bool Geomodel::concat(const Geomodel& other) {
     return true;
 }
 
-void Geomodel::translate(float x, float y, float z) {
+void Geomodel::translate(GLfloat x, GLfloat y, GLfloat z) {
     for (size_t i = 0; i < vertices.size(); i += _vertex_length) {
         vertices[i] += x;
         vertices[i+1] += y;

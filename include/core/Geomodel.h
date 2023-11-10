@@ -17,14 +17,14 @@ class Geomodel {
             return std::accumulate(_attr_layout.begin(), _attr_layout.end(), 0);
 	}
     public:
-        std::vector<float> vertices;
+        std::vector<GLfloat> vertices;
         std::vector<GLuint> indices;
 
         Geomodel(const std::vector<int> attribute_layout) : _attr_layout(attribute_layout) {
             _vertex_length = _accumulate_attr_layout();
         }
 
-        Geomodel(const std::vector<int> attribute_layout, const std::vector<float> vertices, const std::vector<GLuint> indices)
+        Geomodel(const std::vector<int> attribute_layout, const std::vector<GLfloat> vertices, const std::vector<GLuint> indices)
 	    : _attr_layout(attribute_layout), vertices(vertices), indices(indices)
 	{
             _vertex_length = _accumulate_attr_layout();
@@ -32,7 +32,7 @@ class Geomodel {
         
         bool concat(const Geomodel& other);
 
-        void translate(float x, float y, float z);
+        void translate(GLfloat x, GLfloat y, GLfloat z);
 
 	const std::vector<int>& get_attribute_layout() const {
             return _attr_layout;

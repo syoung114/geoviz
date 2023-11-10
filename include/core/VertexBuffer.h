@@ -9,7 +9,7 @@
 class VertexBuffer {
     private:
         GLuint _id;
-        const std::vector<float>* _verts;
+        const std::vector<GLfloat>* _verts;
 	bool _needs_buffer; //see implementation of buffer for further explaination
 	//VertexArrayObject* _vao;
 
@@ -17,7 +17,7 @@ class VertexBuffer {
         VertexBuffer(const VertexArrayObject& vao, const int vertex_length);
         ~VertexBuffer();
 
-	void update(const std::vector<float>& vertices) {
+	void update(const std::vector<GLfloat>& vertices) {
             _verts = &vertices;
 	    _needs_buffer = true;
 	}

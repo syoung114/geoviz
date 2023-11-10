@@ -8,7 +8,7 @@
 
 VertexBuffer::VertexBuffer(const VertexArrayObject& vao, const int vertex_length) {
     glCreateBuffers(1, &_id);
-    glVertexArrayVertexBuffer(vao.get_id(), 0, _id, 0, vertex_length * sizeof(float));
+    glVertexArrayVertexBuffer(vao.get_id(), 0, _id, 0, vertex_length * sizeof(GLfloat));
     _needs_buffer = false;
 }
 
@@ -18,7 +18,7 @@ VertexBuffer::~VertexBuffer() {
 
 bool VertexBuffer::buffer(const bool forceful) {
     if (_needs_buffer || forceful) {
-        size_t vsize_bytes = _verts->size() * sizeof(float);
+        size_t vsize_bytes = _verts->size() * sizeof(GLfloat);
         glNamedBufferData(_id, vsize_bytes, 0, GL_STATIC_DRAW);
         glNamedBufferSubData(_id, 0, vsize_bytes, _verts->data());
 
