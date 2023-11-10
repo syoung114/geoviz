@@ -19,8 +19,8 @@ class VertexArrayObject {
             return _id;
 	};
 
-	void bind();
 	void init();
+	void bind();
 };
 
 #endif

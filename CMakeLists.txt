@@ -22,14 +22,13 @@ set(
     src/core/SDLContextLogic.cpp
     src/core/GLProgram.cpp
     src/core/VertexArrayObject.cpp
-    src/core/VertexBuffer.cpp
     src/core/Renderer.cpp
     src/core/ShaderFactory.cpp
-    src/core/IndexBuffer.cpp
     src/core/ShaderFile.cpp
     src/primitives/PrimitiveBuilder.cpp
     src/core/Geomodel.cpp
 )
+#src/core/Buffer.cpp
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_definitions(-DDEBUG_WITH_GDB)

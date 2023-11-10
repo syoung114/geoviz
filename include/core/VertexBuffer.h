@@ -5,23 +5,17 @@
 #include <vector>
 
 #include "VertexArrayObject.h"
+#include "Buffer.h"
 
-class VertexBuffer {
-    private:
-        GLuint _id;
-        const std::vector<GLfloat>* _verts;
-	bool _needs_buffer; //see implementation of buffer for further explaination
-	//VertexArrayObject* _vao;
-
+class VertexBuffer : public Buffer<GLfloat> {
     public:
-        VertexBuffer(const VertexArrayObject& vao, const int vertex_length);
-        ~VertexBuffer();
+        VertexBuffer(const VertexArrayObject& vao, const int vertex_length) {
+            glVertexArrayVertexBuffer(vao.get_id(), 0, _id, 0, vertex_length * sizeof(GLfloat));
+        }
 
-	void update(const std::vector<GLfloat>& vertices) {
-            _verts = &vertices;
-	    _needs_buffer = true;
-	}
-
-        bool buffer(const bool forceful=false);
+        void draw() override {
+            glDrawElements(GL_TRIANGLES, _data->size(), GL_FLOAT, 0);
+        }
 };
+
 #endif
