@@ -5,12 +5,14 @@
 #include <vector>
 #include <glad/glad.h>
 
-template<typename T>
+template<typename Derived, typename T>
 class Buffer {
     protected:
         GLuint _id;
+        bool _needs_buffer = false;
+
+        // intentionally a raw pointer. it's safe to not have it intitialized after instantiation.
         const std::vector<T>* _data;
-        bool _needs_buffer;
 
     public:
         Buffer() { //I don't provide the vao here because uncertain whether all possible subclasses will require one
@@ -18,11 +20,11 @@ class Buffer {
             _needs_buffer = false;
         }
 
-	    virtual ~Buffer() {
+	    ~Buffer() {
             glDeleteBuffers(1, &_id);
 	    }
 
-        virtual void update(const std::vector<T>& data) {
+        void update(const std::vector<T>& data) {
             _data = &data;
             _needs_buffer = true;
 	    }
@@ -39,7 +41,9 @@ class Buffer {
             return false;
 	    }
 
-        virtual void draw() = 0;
+        void draw() {
+            static_cast<Derived*>(this)->draw();
+        }
 };
 
 #endif

@@ -49,6 +49,7 @@ inline void geoviz_static_run(Geomodel model_pool) {
     //Give the program and vertex buffer to the renderer
     Vec4f clear_color = {0.5, 0.5, 0.5, 1.0};
     Renderer renderer = Renderer(program, ebo, vbo, vao, clear_color);
+
     //Renderer renderer = Renderer(program, vimediator, clear_color);
     context.run(renderer); // <- render loop here
 }
