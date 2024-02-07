@@ -1,6 +1,5 @@
-#include <algorithm>
-#include <cstddef>
-#include <stdexcept>
+
+#include <glad/glad.h>
 
 #include "core/Geomodel.h"
 

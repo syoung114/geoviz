@@ -11,15 +11,15 @@
 class IndexBuffer : public Buffer<GLuint> {
     public:
         IndexBuffer(const VertexArrayObject& vao) {
-            glVertexArrayElementBuffer(vao.get_id(), _id);
-	}
+            glVertexArrayElementBuffer(vao.get_id(), this->_id);
+        }
 
         /**
          * Draws the contents of this object. Assumes a context, program, and a renderer has been created, and you've provided this object some vertices.
          */
         void draw() override {
-            glDrawElements(GL_TRIANGLES, _data->size(), GL_UNSIGNED_INT, 0);
-	}
+            glDrawElements(GL_TRIANGLES, this->_data->size(), GL_UNSIGNED_INT, 0);
+        }
 };
 
 #endif

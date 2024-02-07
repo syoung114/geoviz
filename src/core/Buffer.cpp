@@ -26,9 +26,9 @@ bool Buffer<T>::buffer(bool forceful) {
         size_t data_size_bytes = _data->size() * sizeof(T);
         glNamedBufferData(_id, data_size_bytes, 0, GL_STATIC_DRAW);
         glNamedBufferSubData(_id, 0, data_size_bytes, _data->data());
-
-	_needs_buffer = false;
-	return true;
+    
+        _needs_buffer = false;
+        return true;
     }
     return false;
 }

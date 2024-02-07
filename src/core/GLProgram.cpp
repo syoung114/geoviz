@@ -4,9 +4,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <string>
-#include <vector>
-
 #include "core/ShaderFile.h"
 
 /**
@@ -42,7 +39,9 @@ GLuint GLProgram::_create_shader(const ShaderFile &file) {
     GLuint shader = glCreateShader(file.get_type());
     std::string str = file.get_source();
     const char* shader_source_ptr = str.c_str();
+
     glShaderSource(shader, 1, &shader_source_ptr, NULL);
     glCompileShader(shader);
+
     return shader;
 }
