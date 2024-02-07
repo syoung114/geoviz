@@ -16,16 +16,16 @@ Renderer::Renderer(GLProgram &program, IndexBuffer &vi_mediator, VertexBuffer& v
     
     //Set the rendering matrices
     _world = glm::mat4(1.0);
-
+    
     _view = glm::mat4(1.0);
     _view = glm::translate(_view, glm::vec3(0.0, 0.0, -95.0));
-   
+    
     //create the perspective matrix assuming default values.
     _aspect = 1.0f;
     this->set_fov(45);
     _projection = glm::mat4(1.0);
     _update_projection();
-
+    
     //Remove fragments 'behind' other fragments
     glEnable(GL_DEPTH_TEST);
 }
@@ -36,7 +36,7 @@ void Renderer::_update_projection() {
 }
 
 
-void Renderer::set_aspect_ratio(int& screen_width, int& screen_height) {
+void Renderer::set_aspect_ratio(int screen_width, int screen_height) {
     _aspect = screen_width / screen_height;
     _update_projection();
 }

@@ -6,6 +6,7 @@
 #include <memory>
 
 //Relevant header files from this project
+#include "SDLContextLogic.h"
 #include "core/SDLContext.h"
 #include "core/SDLContextLogic.h"
 #include "core/ShaderFactory.h"
@@ -19,8 +20,9 @@
 #include "util/Vec4f.h"
 
 inline void geoviz_static_run(Geomodel model_pool) {
+    
     //create an SDLContext and choose the logic to go with it.
-    std::unique_ptr<SDLContext> context = std::make_unique<SDLContextLogic>(800, 800, "Geoviz"); //do not move. must be first function.
+    SDLContextLogic context = SDLContextLogic(800, 800, "Geoviz"); //do not move. must be first function.
     
     //Create the shaders
     std::vector<ShaderFile> shaders;
@@ -48,10 +50,7 @@ inline void geoviz_static_run(Geomodel model_pool) {
     Vec4f clear_color = {0.5, 0.5, 0.5, 1.0};
     Renderer renderer = Renderer(program, ebo, vbo, vao, clear_color);
     //Renderer renderer = Renderer(program, vimediator, clear_color);
-    
-    //Now that we have created a renderer we can attach it to the window and activate the window.
-    context->set_renderer(renderer);
-    context->run(); // <- render loop here
+    context.run(renderer); // <- render loop here
 }
 
 #endif

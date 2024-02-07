@@ -18,7 +18,6 @@ set(
     SRC_FILES
     src/main.cpp
     src/vox-spiral.cpp
-    src/core/SDLContext.cpp
     src/core/SDLContextLogic.cpp
     src/core/GLProgram.cpp
     src/core/VertexArrayObject.cpp

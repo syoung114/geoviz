@@ -12,6 +12,7 @@ class BufferGroup {
     	std::unordered_set<const Buffer*> _drawables;
 
 	    int _vertex_length;
+
     public:
 	    BufferGroup(const std::vector<int>& attribute_layout) {//: _buffers({}), _drawing_ptrs({}) {
             _vao = VertexArrayObject(attribute_layout);

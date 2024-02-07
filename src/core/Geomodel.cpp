@@ -1,3 +1,4 @@
+#include <algorithm>
 
 #include <glad/glad.h>
 

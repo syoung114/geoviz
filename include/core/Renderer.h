@@ -12,8 +12,8 @@
 class Renderer {
     private:
         IndexBuffer* _vbuffer;
-	VertexBuffer* _vb2;
-	VertexArrayObject* _vao;
+        VertexBuffer* _vb2;
+        VertexArrayObject* _vao;
         //VertexIndexMediator *_vbuffer;
         GLProgram* _program;
         Vec4f* _clear_color;
@@ -34,7 +34,7 @@ class Renderer {
 
         void mult_world_matrix(glm::mat4 other);
 
-        void set_aspect_ratio(int& screen_width, int& screen_height);
+        void set_aspect_ratio(int screen_width, int screen_height);
 
         void set_fov(float radians);
 

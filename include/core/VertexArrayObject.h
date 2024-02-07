@@ -21,6 +21,7 @@ class VertexArrayObject {
         };
         
         void init();
+
         void bind();
 };
 
