@@ -9,7 +9,6 @@ class BufferGroup {
     private:
         VertexArrayObject _vao;
         std::partial_map<K, Buffer> _buffers;
-    	std::unordered_set<const Buffer*> _drawables;
 
 	    int _vertex_length;
 

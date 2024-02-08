@@ -2,7 +2,9 @@
 
 #include <glad/glad.h>
 
-VertexArrayObject::VertexArrayObject(const std::vector<int>& attribute_layout) : _attr_layout(&attribute_layout) {
+VertexArrayObject::VertexArrayObject(const std::vector<int>& attribute_layout)
+    : _attr_layout(&attribute_layout)
+{
     glCreateVertexArrays(1, &_id);
 }
 
@@ -17,12 +19,12 @@ void VertexArrayObject::init() {
 
     for (int a = 0; a < _attr_layout->size(); a++) {
         int current_attr = _attr_layout->at(a);
-	
+
         glEnableVertexArrayAttrib(_id, a);
-	glVertexArrayAttribBinding(_id, a, 0);
+        glVertexArrayAttribBinding(_id, a, 0);
         glVertexArrayAttribFormat(_id, a, current_attr, GL_FLOAT, GL_FALSE, current_attr_sum * sizeof(float)); //sizeof float because we're actually buffering floats
 
-	current_attr_sum += current_attr;
+        current_attr_sum += current_attr;
     } 
 }
 

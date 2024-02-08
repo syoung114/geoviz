@@ -17,6 +17,7 @@ class ShaderFactory {
          * Returns the contents of a shader file
          */
         static ShaderFile read_shader_file(const std::string &filename);
+//        static ShaderFile read_shader_file(std::string&& filename);
 };
 
 #endif

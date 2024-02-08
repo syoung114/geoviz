@@ -23,7 +23,7 @@ GLenum ShaderFactory::get_shader_type(std::string str) {
     }
 };
 
-ShaderFile ShaderFactory::read_shader_file(const std::string &filename) {
+ShaderFile ShaderFactory::read_shader_file(const std::string& filename) {
     std::string source;
     std::ifstream file(filename.c_str());
 
@@ -51,3 +51,7 @@ ShaderFile ShaderFactory::read_shader_file(const std::string &filename) {
 
     return sf;
 };
+
+//ShaderFile ShaderFactory::read_shader_file(std::string&& filename) {
+//    return read_shader_file(std::move(filename));
+//}

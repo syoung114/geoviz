@@ -23,7 +23,7 @@ inline void geoviz_static_run(Geomodel model_pool) {
     
     //create an SDLContext and choose the logic to go with it.
     SDLContextLogic context = SDLContextLogic(800, 800, "Geoviz"); //do not move. must be first function.
-    
+
     //Create the shaders
     std::vector<ShaderFile> shaders;
     std::string wd = "/home/steven/desktop/geoviz";
@@ -33,7 +33,7 @@ inline void geoviz_static_run(Geomodel model_pool) {
     shaders.push_back(
         ShaderFactory::read_shader_file(wd + "/src/shaders/f.glsl")
     );
-        
+
     //Create the opengl program using the shaders.
     GLProgram program = GLProgram(shaders);
     
