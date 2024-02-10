@@ -1,0 +1,5 @@
+build/
+lib/glad/src/
+lib/glad/include/
+.vscode/
+glad.zip

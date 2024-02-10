@@ -1,0 +1,12 @@
+[submodule "include/glfw"]
+	path = include/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "lib/glm"]
+	path = lib/glm
+	url = https://github.com/g-truc/glm
+[submodule "lib/SDL"]
+	path = lib/SDL
+	url = https://github.com/libsdl-org/SDL
+[submodule "lib/CLI11"]
+	path = lib/CLI11
+	url = https://github.com/CLIUtils/CLI11
