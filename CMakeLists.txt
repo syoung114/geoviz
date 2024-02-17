@@ -20,10 +20,6 @@ set(
 )
 #src/core/Buffer.cpp
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_definitions(-DDEBUG_WITH_GDB)
-endif()
-
 #src/core/VertexIndexMediator.cpp
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 

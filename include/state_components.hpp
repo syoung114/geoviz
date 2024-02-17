@@ -1,6 +1,8 @@
 #pragma once
 
+#include <cmath>
 #include <variant>
+#include <array>
 #include <vector>
 
 #include <glad/glad.h>
@@ -10,12 +12,19 @@
 
 namespace geoviz {
 
-    struct MeshComponent {
-        std::vector<float_t> vertices;
-        std::vector<uint_t> indices;
+    struct Component {};
+
+    struct Mesh : public Component {
+        std::array<float_t, 6> vertices;
+        std::array<uint_t, 3> indices;
+
+        constexpr Mesh(std::array<float_t, 6>&& verts, std::array<uint_t, 3>&& inds)
+            : vertices(std::move(verts)),
+              indices(std::move(inds))
+        {}
     };
 
-    struct TransformComponent {
+    struct Transform : public Component {
         // https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/2D_affine_transformation_matrix.svg/1024px-2D_affine_transformation_matrix.svg.png
         // although I can just store the matrix directly, it's not transparent.
         glm::vec4 rotation;
@@ -25,7 +34,7 @@ namespace geoviz {
         ;
     };
 
-    struct RenderComponent {
+    struct Render : public Component {
         GLuint
             vao,
             vbo,
@@ -33,6 +42,7 @@ namespace geoviz {
         ;
     };
 
-    using component_variant = std::variant<MeshComponent, TransformComponent, RenderComponent>;
+    template<typename C>
+    concept IsComponent = std::is_base_of_v<Component, C>;
 
 } // namespace geoviz

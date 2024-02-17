@@ -3,3 +3,6 @@ lib/glad/src/
 lib/glad/include/
 .vscode/
 glad.zip
+.cache/
+build_debug/
+
