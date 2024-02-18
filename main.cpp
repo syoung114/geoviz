@@ -1,7 +1,9 @@
 #include <iostream>
-#include <SDL3/SDL.h>
 #include <memory>
 #include <tuple>
+
+#include <SDL3/SDL.h>
+#include <glad/glad.h>
 
 #include "include/entities.hpp"
 #include "include/state_components.hpp"
@@ -21,8 +23,6 @@ int main(int argc, char* argv[]) {
             )
         )
     );
-    std::cout<<"slkdfjdslk\n";
-
     std::unique_ptr<Mesh> a = w.template get_component<Entity::PLAYER, Mesh>();
     if (a) {
         for (size_type i = 0; i < a->vertices.size(); i++) {
@@ -33,4 +33,53 @@ int main(int argc, char* argv[]) {
     else {
         std::cout<<"pee\n";
     }
+
+    int width = 512;
+    int height = 512;
+
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        std::cout<<"she no good 1\n";
+        return 1;
+    }
+
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+    std::string title = "geoviz";
+    SDL_Window* window = SDL_CreateWindow(title.c_str(), width, height, SDL_WINDOW_OPENGL);
+    if (!window) {
+        std::cout<<"she no good 2\n";
+        return 1;
+    }
+
+    SDL_GLContext context = SDL_GL_CreateContext(window);
+    if (context == NULL || context == nullptr) {
+        std::cout<<"she no good 3\n";
+        return 1;
+    }
+
+    if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
+        std::cout<<"she no good 4\n";
+        return 1;
+    }
+
+    glViewport(0,0,width,height);
+    SDL_Event wevent;
+    while (true) {
+        while (SDL_PollEvent(&wevent)) {
+            switch(wevent.type) {
+                case SDL_EVENT_QUIT:
+                    goto break_all;
+            }
+        }
+        SDL_GL_SwapWindow(window);
+    }
+    break_all:
+
+    SDL_GL_DeleteContext(context);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+    return 0;
 }

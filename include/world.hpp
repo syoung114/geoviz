@@ -70,7 +70,7 @@ namespace geoviz {
                     return nullptr;
                 }
                 else {
-                    decltype(auto) element = std::get<Index>(t); // returns Cmp&
+                    decltype(auto) element = std::get<Index>(t); // returns &(t[Index]), so to speak.
 
                     if constexpr (std::is_same_v<std::decay_t<decltype(element)>, Cmp>) {
                         return std::make_unique<Cmp>(element);
