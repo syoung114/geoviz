@@ -1,6 +1,6 @@
 #pragma once
 
-#include "state_components.hpp"
+#include "components.hpp"
 #include "types.hpp"
 
 namespace geoviz {

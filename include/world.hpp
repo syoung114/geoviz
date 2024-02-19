@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <optional>
 #include <iostream>
@@ -7,7 +8,8 @@
 #include <type_traits>
 #include <utility>
 
-#include "state_components.hpp"
+#include "BoundArray.hpp"
+#include "components.hpp"
 #include "types.hpp"
 #include "entities.hpp"
 
@@ -26,14 +28,15 @@ namespace geoviz {
     concept IsTuple = is_tuple_v<T>;
 
 
-    template<Entity... entities>
-    class World {
+    template<Entity... entities_t>
+    class CompileWorld {
         private:
-            std::tuple<typename EntityComponent<entities...>::type> _world;
+            //constexpr uint_t entity_count = sizeof...(entities);
+            std::tuple<typename EntityComponent<entities_t>::type...> _world;
 
         public:
             template<typename... EC>
-            consteval World(EC&&... entitycomponents)
+            consteval CompileWorld(EC&&... entitycomponents)
                 : _world(std::make_tuple(std::forward<EC>(entitycomponents)...))
             {
                 // prepare searching for any/all elements so it's efficient later on
@@ -41,14 +44,65 @@ namespace geoviz {
             }
 
             template<Entity entity, IsComponent Cmp>
-            constexpr std::unique_ptr<Cmp> get_component() const {
+            std::unique_ptr<Cmp> get_component() const {
                 using ec = typename EntityComponent<entity>::type;
 
                 ec inner_tuple = _world_cache_search<entity>();
-                return _get_component<ec, Cmp>(inner_tuple);
+                return _get_component_ptr<ec, Cmp>(inner_tuple);
+            }
+
+            template<IsComponent Cmp>
+            constexpr BoundArray<Entity> get_entities_by() const {
+                return _get_entities_by<Cmp>({});
             }
 
         private:
+
+            #define _M_PVT_GET_COMPONENT_OVERLOAD(name,type,found,null) \
+                template<IsTuple Tuple, IsComponent Cmp, size_type Index = 0> \
+                constexpr type name(Tuple& t) const { \
+                    if constexpr (Index >= std::tuple_size_v<std::remove_reference_t<Tuple>>) { \
+                        return null; \
+                    } \
+                    else { \
+                        decltype(auto) element = std::get<Index>(t); \
+                        if constexpr (std::is_same_v<std::decay_t<decltype(element)>, Cmp>) { \
+                            return found; \
+                        } \
+                        else { \
+                            return _get_component<Tuple, Cmp, Index+1>(t); \
+                        } \
+                    } \
+                }
+
+            _M_PVT_GET_COMPONENT_OVERLOAD(_get_component_ptr, std::unique_ptr<Cmp>, std::make_unique<Cmp>(std::get<Index>(t)), nullptr)
+
+            _M_PVT_GET_COMPONENT_OVERLOAD(_get_component_opt, std::optional<size_type>, std::make_optional(Index), std::nullopt)
+
+            template<IsComponent Cmp, size_type Index=0>
+            constexpr BoundArray<Entity> _get_entities_by(std::vector<Entity>&& entities) const {
+                // this one iterates the entire _world tuple
+
+                if constexpr (Index >= std::tuple_size_v<decltype(_world)>) {
+                    return make_bound(entities.data(), entities.size());
+                }
+                else {
+                    auto inner_tuple = std::get<Index>(_world);
+
+                    std::optional<size_type> result = _get_component_opt<
+                            typename EntityComponent<static_cast<Entity>(Index)>::type,
+                            Cmp
+                        >(
+                            inner_tuple
+                            //std::get<Index>(_world)
+                        );
+
+                    if (result.has_value()) {
+                        entities.push_back(static_cast<Entity>(Index));
+                    }
+                    return _get_entities_by<Cmp, Index+1>(std::move(entities));
+                }
+            }
 
             template<Entity instance>
             constexpr typename EntityComponent<instance>::type _world_cache_search() const {
@@ -56,29 +110,6 @@ namespace geoviz {
                     // Convert this entity to the respective index in the tuple.
                     static_cast<std::underlying_type_t<Entity>>(instance)
                 >(_world);
-            }
-
-            template<IsTuple Tuple, IsComponent Cmp, size_type Index = 0>
-            constexpr std::unique_ptr<Cmp> _get_component(Tuple& t) const {
-
-                // I don't like using "redundant" elses but for `constexpr if` they're actually
-                // important for the compiler to understand what I'm doing. Try to "refactor" them
-                // away and you'll get an index out of range error because the compiler doesn't see
-                // the recursion stopping conditions properly.
-
-                if constexpr (Index >= std::tuple_size_v<std::remove_reference_t<Tuple>>) {
-                    return nullptr;
-                }
-                else {
-                    decltype(auto) element = std::get<Index>(t); // returns &(t[Index]), so to speak.
-
-                    if constexpr (std::is_same_v<std::decay_t<decltype(element)>, Cmp>) {
-                        return std::make_unique<Cmp>(element);
-                    }
-                    else {
-                        return _get_component<Tuple, Cmp, Index+1>(t);
-                    }
-                }
             }
     };
 

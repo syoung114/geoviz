@@ -6,7 +6,7 @@
 #include <glad/glad.h>
 
 #include "include/entities.hpp"
-#include "include/state_components.hpp"
+#include "include/components.hpp"
 #include "include/types.hpp"
 #include "types.hpp"
 #include "entities.hpp"
@@ -15,7 +15,7 @@
 using namespace geoviz;
 
 int main(int argc, char* argv[]) {
-    constexpr geoviz::World<geoviz::Entity::PLAYER> w(
+    constexpr geoviz::CompileWorld<geoviz::Entity::PLAYER> w(
         std::make_tuple(
             geoviz::Mesh(
                 std::array<geoviz::float_t, 6>({-0.5f, -0.5f, 0.5f, -0.5f, 0.0f, 0.5f}),
@@ -33,9 +33,10 @@ int main(int argc, char* argv[]) {
     else {
         std::cout<<"pee\n";
     }
+    w.template get_entities_by<Mesh>();
 
-    int width = 512;
-    int height = 512;
+    int_t width = 512;
+    int_t height = 512;
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cout<<"she no good 1\n";
