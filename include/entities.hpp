@@ -18,5 +18,5 @@ namespace geoviz {
             using type = std::tuple<__VA_ARGS__>; \
         };
 
-    M_NEW_COMPONENTS(PLAYER, Mesh)//, TransformComponent)
+    M_NEW_COMPONENTS(PLAYER, Mesh)//, Render)//, TransformComponent)
 }

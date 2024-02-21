@@ -5,35 +5,20 @@
 #include <SDL3/SDL.h>
 #include <glad/glad.h>
 
+#include "include/BoundArray.hpp"
 #include "include/entities.hpp"
 #include "include/components.hpp"
+#include "include/shader.hpp"
 #include "include/types.hpp"
+#include "include/world.hpp"
 #include "types.hpp"
 #include "entities.hpp"
 #include "world.hpp"
+#include "systems.hpp"
 
 using namespace geoviz;
 
 int main(int argc, char* argv[]) {
-    constexpr geoviz::CompileWorld<geoviz::Entity::PLAYER> w(
-        std::make_tuple(
-            geoviz::Mesh(
-                std::array<geoviz::float_t, 6>({-0.5f, -0.5f, 0.5f, -0.5f, 0.0f, 0.5f}),
-                std::array<geoviz::uint_t, 3>({0, 1, 2})
-            )
-        )
-    );
-    std::unique_ptr<Mesh> a = w.template get_component<Entity::PLAYER, Mesh>();
-    if (a) {
-        for (size_type i = 0; i < a->vertices.size(); i++) {
-            a->vertices[i] += 1.0f;
-            std::cout<<std::to_string(a->vertices[i])<<'\n';
-        }
-    }
-    else {
-        std::cout<<"pee\n";
-    }
-    w.template get_entities_by<Mesh>();
 
     int_t width = 512;
     int_t height = 512;
@@ -65,6 +50,47 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    GLuint program = glCreateProgram();
+
+    GLuint vs = glCreateShader(basic_vertex_shader.get_type());
+    const char* vsrc = basic_vertex_shader.get_source();
+    glShaderSource(vs, 1, &vsrc, NULL);
+    glCompileShader(vs);
+    glAttachShader(program, vs);
+
+    GLuint fs = glCreateShader(basic_fragment_shader.get_type());
+    const char* fsrc = basic_fragment_shader.get_source();
+    glShaderSource(fs, 1, &fsrc, NULL);
+    glCompileShader(fs);
+    glAttachShader(program, fs);
+
+    glLinkProgram(program);
+
+    constexpr CompileWorld<EntitiesWrap<Entity::PLAYER>, SystemsWrap<geoviz::Renderer>> w(
+        std::make_tuple(
+            std::make_tuple(
+                Mesh(
+                    std::array<float_t, 15>({-0.5f, -0.5f, 1.0f, 0.0f, 0.0, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f}),
+                    std::array<uint_t, 3>({0, 1, 2})
+                )
+            )
+        ),
+        std::make_tuple(
+            geoviz::Renderer()
+        )
+    );
+    std::unique_ptr<Mesh> a = w.template get_component<Entity::PLAYER, Mesh>();
+    if (a) {
+        for (size_type i = 0; i < a->vertices.size(); i++) {
+            a->vertices[i] += 1.0f;
+            std::cout<<std::to_string(a->vertices[i])<<'\n';
+        }
+    }
+    else {
+        std::cout<<"pee\n";
+    }
+    BoundArray<Entity> ees = w.template get_entities_by<Mesh>();
+
     glViewport(0,0,width,height);
     SDL_Event wevent;
     while (true) {
@@ -77,6 +103,8 @@ int main(int argc, char* argv[]) {
         SDL_GL_SwapWindow(window);
     }
     break_all:
+
+    glDeleteProgram(program);
 
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);

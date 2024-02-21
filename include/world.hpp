@@ -10,6 +10,7 @@
 
 #include "BoundArray.hpp"
 #include "components.hpp"
+#include "systems.hpp"
 #include "types.hpp"
 #include "entities.hpp"
 
@@ -27,22 +28,38 @@ namespace geoviz {
     template<typename T>
     concept IsTuple = is_tuple_v<T>;
 
+    template<Entity...entities_t>
+    struct EntitiesWrap {};
 
-    template<Entity... entities_t>
-    class CompileWorld {
+    template<IsSystem...systems_t>
+    struct SystemsWrap {};
+
+    template<typename Entities, typename Systems>
+    class CompileWorld;
+
+    template<Entity...entities_t, IsSystem...systems_t>
+    class CompileWorld<EntitiesWrap<entities_t...>, SystemsWrap<systems_t...>> {
         private:
-            //constexpr uint_t entity_count = sizeof...(entities);
-            std::tuple<typename EntityComponent<entities_t>::type...> _world;
+            std::tuple<typename EntityComponent<entities_t>::type..., systems_t...> _world;
+            //constexpr size_type _system_offset = sizeof...(entities_t);
 
         public:
-            template<typename... EC>
-            consteval CompileWorld(EC&&... entitycomponents)
-                : _world(std::make_tuple(std::forward<EC>(entitycomponents)...))
-            {
-                // prepare searching for any/all elements so it's efficient later on
-                //( ..., (void)_world_cache_search<decltype(entities)>(entities) );
-            }
+            template<typename... EC, typename... Sys>
+            consteval CompileWorld(std::tuple<EC...>&& entitycomponents, std::tuple<Sys...>&& systems)
+                : _world(std::tuple_cat(std::forward<std::tuple<EC...>>(entitycomponents), std::forward<std::tuple<Sys...>>(systems)))
+            {}
 
+    //template<Entity...entities_t>
+    //class CompileWorld {
+    //    private:
+    //        std::tuple<typename EntityComponent<entities_t>::type...> _world;
+    //        //constexpr size_type _system_offset = sizeof...(entities_t);
+
+    //    public:
+    //        template<typename EC>
+    //        consteval CompileWorld(std::tuple<EC>&& entitycomponents)
+    //            : _world(entitycomponents)
+    //        {}
             template<Entity entity, IsComponent Cmp>
             std::unique_ptr<Cmp> get_component() const {
                 using ec = typename EntityComponent<entity>::type;
@@ -83,13 +100,16 @@ namespace geoviz {
             constexpr BoundArray<Entity> _get_entities_by(std::vector<Entity>&& entities) const {
                 // this one iterates the entire _world tuple
 
-                if constexpr (Index >= std::tuple_size_v<decltype(_world)>) {
+                // TODO need a better way to handle dynamic allocation. I wanted std::vector::release
+
+                if constexpr (Index >= sizeof...(entities_t)) {
                     return make_bound(entities.data(), entities.size());
                 }
                 else {
                     auto inner_tuple = std::get<Index>(_world);
 
                     std::optional<size_type> result = _get_component_opt<
+                            //typename EntityComponent<Entity::PLAYER>::type,
                             typename EntityComponent<static_cast<Entity>(Index)>::type,
                             Cmp
                         >(
@@ -102,6 +122,27 @@ namespace geoviz {
                     }
                     return _get_entities_by<Cmp, Index+1>(std::move(entities));
                 }
+
+                //constexpr std::vector<Entity> entities;
+
+                //constexpr auto fn = [&entities, &_world]<size_type... Ix>(std::index_sequence<Ix...>) {
+                //    ([&]{
+                //        auto inner_tuple = std::get<Ix>(_world);
+                //        std::optional<size_type> result = _get_component_opt<
+                //                typename EntityComponent<static_cast<Entity>(Ix)>::type,
+                //                Cmp
+                //            >(
+                //                inner_tuple
+                //                //std::get<Index>(_world)
+                //            );
+
+                //        if (result.has_value()) {
+                //            entities.push_back(static_cast<Entity>(Ix));
+                //        }
+                //    }(), ...);
+                //};
+                //fn(std::make_index_sequence<std::tuple_size_v<decltype(_world)>>{});
+                //return make_bound(entities.data(), entities.size());
             }
 
             template<Entity instance>
