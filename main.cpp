@@ -15,6 +15,7 @@
 #include "entities.hpp"
 #include "world.hpp"
 #include "systems.hpp"
+#include "compile_init.hpp"
 
 using namespace geoviz;
 
@@ -51,23 +52,24 @@ int main(int argc, char* argv[]) {
     }
 
     GLuint program = glCreateProgram();
-
-    GLuint vs = glCreateShader(basic_vertex_shader.get_type());
-    const char* vsrc = basic_vertex_shader.get_source();
-    glShaderSource(vs, 1, &vsrc, NULL);
+    GLuint vs = glCreateShader(basic_vertex_shader.type);
+    const char* vsdata = basic_vertex_shader.source.data();
+    glShaderSource(vs, 1, &vsdata, NULL);
     glCompileShader(vs);
     glAttachShader(program, vs);
 
-    GLuint fs = glCreateShader(basic_fragment_shader.get_type());
-    const char* fsrc = basic_fragment_shader.get_source();
-    glShaderSource(fs, 1, &fsrc, NULL);
+    GLuint fs = glCreateShader(basic_fragment_shader.type);
+    const char* fsdata = basic_fragment_shader.source.data();
+    glShaderSource(fs, 1, &fsdata, NULL);
     glCompileShader(fs);
     glAttachShader(program, fs);
 
     glLinkProgram(program);
 
-    constexpr CompileWorld<EntitiesWrap<Entity::PLAYER>, SystemsWrap<geoviz::Renderer>> w(
+    constexpr CompileWorld<world_types> w(
+        // wrapper for all entities
         std::make_tuple(
+            // instance of an entity
             std::make_tuple(
                 Mesh(
                     std::array<float_t, 15>({-0.5f, -0.5f, 1.0f, 0.0f, 0.0, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f}),
@@ -75,10 +77,10 @@ int main(int argc, char* argv[]) {
                 )
             )
         ),
-        std::make_tuple(
-            geoviz::Renderer()
-        )
+        // wrapper for all systems
+        std::make_tuple()
     );
+
     std::unique_ptr<Mesh> a = w.template get_component<Entity::PLAYER, Mesh>();
     if (a) {
         for (size_type i = 0; i < a->vertices.size(); i++) {

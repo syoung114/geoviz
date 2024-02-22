@@ -9,62 +9,47 @@
 #include <utility>
 
 #include "BoundArray.hpp"
+#include "compile_init.hpp"
 #include "components.hpp"
 #include "systems.hpp"
 #include "types.hpp"
 #include "entities.hpp"
+#include "templates.hpp"
 
 namespace geoviz {
 
-    template<typename T>
-    struct is_tuple : std::false_type {};
-
-    template<typename... Args>
-    struct is_tuple<std::tuple<Args...>> : std::true_type {};
-
-    template<typename T>
-    inline constexpr bool is_tuple_v = is_tuple<T>::value;
-
-    template<typename T>
-    concept IsTuple = is_tuple_v<T>;
-
-    template<Entity...entities_t>
-    struct EntitiesWrap {};
-
-    template<IsSystem...systems_t>
-    struct SystemsWrap {};
-
-    template<typename Entities, typename Systems>
+    // forward decl.
+    template<typename Types>
     class CompileWorld;
 
-    template<Entity...entities_t, IsSystem...systems_t>
-    class CompileWorld<EntitiesWrap<entities_t...>, SystemsWrap<systems_t...>> {
+    template<typename Types>
+    struct world_ptr_wrapper {
+        static CompileWorld<Types>* ptr;
+    };
+
+    template<typename Types>
+    class CompileWorld {
         private:
-            std::tuple<typename EntityComponent<entities_t>::type..., systems_t...> _world;
+            using entities_t = typename Types::Entities;
+            using systems_t = typename Types::Systems;
+            using entities_tuple = typename EntityTuple<entities_t>::type;
+            using systems_tuple = typename SystemsTuple<systems_t>::type;
+
+            using uno_type = decltype(std::tuple_cat(std::declval<entities_tuple>(), std::declval<systems_tuple>()));
+            uno_type _uno;
             //constexpr size_type _system_offset = sizeof...(entities_t);
 
         public:
             template<typename... EC, typename... Sys>
             consteval CompileWorld(std::tuple<EC...>&& entitycomponents, std::tuple<Sys...>&& systems)
-                : _world(std::tuple_cat(std::forward<std::tuple<EC...>>(entitycomponents), std::forward<std::tuple<Sys...>>(systems)))
+                : _uno(std::tuple_cat(std::forward<std::tuple<EC...>>(entitycomponents), std::forward<std::tuple<Sys...>>(systems)))
             {}
 
-    //template<Entity...entities_t>
-    //class CompileWorld {
-    //    private:
-    //        std::tuple<typename EntityComponent<entities_t>::type...> _world;
-    //        //constexpr size_type _system_offset = sizeof...(entities_t);
-
-    //    public:
-    //        template<typename EC>
-    //        consteval CompileWorld(std::tuple<EC>&& entitycomponents)
-    //            : _world(entitycomponents)
-    //        {}
             template<Entity entity, IsComponent Cmp>
             std::unique_ptr<Cmp> get_component() const {
                 using ec = typename EntityComponent<entity>::type;
 
-                ec inner_tuple = _world_cache_search<entity>();
+                ec inner_tuple = _uno_cache_search<entity>();
                 return _get_component_ptr<ec, Cmp>(inner_tuple);
             }
 
@@ -98,24 +83,24 @@ namespace geoviz {
 
             template<IsComponent Cmp, size_type Index=0>
             constexpr BoundArray<Entity> _get_entities_by(std::vector<Entity>&& entities) const {
-                // this one iterates the entire _world tuple
+                // this one iterates the entire _uno tuple
 
                 // TODO need a better way to handle dynamic allocation. I wanted std::vector::release
 
-                if constexpr (Index >= sizeof...(entities_t)) {
+                if constexpr (Index >= std::tuple_size_v<entities_tuple>) {
                     return make_bound(entities.data(), entities.size());
                 }
                 else {
-                    auto inner_tuple = std::get<Index>(_world);
+                    auto inner_tuple = std::get<Index>(_uno);
 
                     std::optional<size_type> result = _get_component_opt<
-                            //typename EntityComponent<Entity::PLAYER>::type,
-                            typename EntityComponent<static_cast<Entity>(Index)>::type,
-                            Cmp
+                        //typename EntityComponent<Entity::PLAYER>::type,
+                        typename EntityComponent<static_cast<Entity>(Index)>::type,
+                        Cmp
                         >(
-                            inner_tuple
-                            //std::get<Index>(_world)
-                        );
+                        inner_tuple
+                        //std::get<Index>(_uno)
+                    );
 
                     if (result.has_value()) {
                         entities.push_back(static_cast<Entity>(Index));
@@ -125,15 +110,15 @@ namespace geoviz {
 
                 //constexpr std::vector<Entity> entities;
 
-                //constexpr auto fn = [&entities, &_world]<size_type... Ix>(std::index_sequence<Ix...>) {
+                //constexpr auto fn = [&entities, &_uno]<size_type... Ix>(std::index_sequence<Ix...>) {
                 //    ([&]{
-                //        auto inner_tuple = std::get<Ix>(_world);
+                //        auto inner_tuple = std::get<Ix>(_uno);
                 //        std::optional<size_type> result = _get_component_opt<
                 //                typename EntityComponent<static_cast<Entity>(Ix)>::type,
                 //                Cmp
                 //            >(
                 //                inner_tuple
-                //                //std::get<Index>(_world)
+                //                //std::get<Index>(_uno)
                 //            );
 
                 //        if (result.has_value()) {
@@ -141,16 +126,16 @@ namespace geoviz {
                 //        }
                 //    }(), ...);
                 //};
-                //fn(std::make_index_sequence<std::tuple_size_v<decltype(_world)>>{});
+                //fn(std::make_index_sequence<std::tuple_size_v<decltype(_uno)>>{});
                 //return make_bound(entities.data(), entities.size());
             }
 
             template<Entity instance>
-            constexpr typename EntityComponent<instance>::type _world_cache_search() const {
+            constexpr typename EntityComponent<instance>::type _uno_cache_search() const {
                 return std::get<
                     // Convert this entity to the respective index in the tuple.
                     static_cast<std::underlying_type_t<Entity>>(instance)
-                >(_world);
+                >(_uno);
             }
     };
 
